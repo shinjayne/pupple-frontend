@@ -1,3 +1,12 @@
+# Pupple Frontend
+
+온라인 인플루언서 패션 매거진 퍼플의 웹 프런트엔드 코드입니다. 
+
+
+<hr/>
+
+> 아래부터는 자동 생성된 내용입니다. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
