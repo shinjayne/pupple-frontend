@@ -264,22 +264,4 @@ const ButtonImage = styled.div<{ source: string }>`
           
 `;
 
-const LikeButton = styled.div`
-  padding: 18px 16px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  
-  font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-/* identical to box height, or 21px */
-  
-text-align: center;
-letter-spacing: -0.33px;
-
-color: #BDBDBD;
-`;
-
 export default VoteImageComponent;

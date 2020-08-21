@@ -8,12 +8,14 @@ import VoteComponent from "./components/VoteComponent";
 import NewDrawer from "./components/NewDrawer";
 import VoteImageComponent from "./components/VoteImageComponent";
 import GateBannerComponent from "./components/GateBannerComponent";
+import LandingCover from "./components/LandingCover";
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false)
 
   return (
     <MaxWidthRoot>
+      <LandingCover/>
       <GateBannerComponent />
       <MomentComponent
         onClickItemShow={showDrawer}

@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
 import sample1 from './sample1.png';
 import {url} from "inspector";
+import LikeButton from './LikeButton';
 
 interface IProps {
-  onClickItemShow: ()=>void,
+  onClickItemShow: () => void,
 }
 
 
 const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
+
+  const [like, setLike] = useState(false);
 
   const variants: Variants = {
     landing: {
@@ -18,6 +21,10 @@ const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
     stable: {
       scale: 1
     }
+  }
+
+  function toggleLike() {
+    setLike(!like);
   }
 
   return (
@@ -66,10 +73,15 @@ const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
           <ButtonGroupAlignedRight>
             <Button
               onClick={onClickItemShow}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.8 , transition: {duration :0.1}}}
+              whileHover={{scale: 1.1}}
+              whileTap={{scale: 0.8, transition: {duration: 0.1}}}
             >👀 아이템 보기</Button>
-            <LikeButton style={{marginLeft: 16}}>💜 1</LikeButton>
+            <LikeButton
+              style={{marginLeft: 16}}
+              onClick={toggleLike}
+              active={like}
+            />
+
           </ButtonGroupAlignedRight>
         </div>
 
@@ -126,22 +138,39 @@ background-color: #9440b0;
 }
 `;
 
-const LikeButton = styled.div`
-  padding: 18px 16px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  
-  font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-/* identical to box height, or 21px */
-  
-text-align: center;
-letter-spacing: -0.33px;
-
-color: #BDBDBD;
-`;
+// const LikeButton = styled(motion.div)`
+//   padding: 18px 16px;
+//   background-color: white;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//   border-radius: 10px;
+//
+//   font-style: normal;
+// font-weight: 500;
+// font-size: 15px;
+// line-height: 140%;
+// /* identical to box height, or 21px */
+//
+// text-align: center;
+// letter-spacing: -0.33px;
+//
+// color: #BDBDBD;
+//
+// :hover {
+// background-color: #d4cece;
+// cursor: pointer;
+//
+// }
+// :active {
+// background-color: #d4cece;
+// }
+// `;
+//
+// const GradientWrapper = styled.div`
+//   position: relative;
+//   background: linear-gradient(to right, #6D1EFF, #C800E9);
+//   padding: 2px;
+//   border-radius: 11px;
+//
+// `;
 
 export default MomentComponent;

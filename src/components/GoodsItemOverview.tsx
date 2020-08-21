@@ -31,7 +31,8 @@ align-items: flex-start;
   
   padding: 12px;
   
-background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%);
+background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%);
+background:linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%);
 /* line */
 
 border: 1px solid #F2F2F2;
