@@ -9,29 +9,36 @@ import NewDrawer from "./components/NewDrawer";
 import VoteImageComponent from "./components/VoteImageComponent";
 import GateBannerComponent from "./components/GateBannerComponent";
 import LandingCover from "./components/LandingCover";
+import Padding from "./components/Padding";
 
 function App() {
   const [modalVisible, setModalVisible] = useState(false)
 
   return (
-    <MaxWidthRoot>
-      <LandingCover/>
-      <GateBannerComponent />
-      <MomentComponent
-        onClickItemShow={showDrawer}
-      />
-      <VoteComponent />
-      <VoteImageComponent />
+    <>
+
+      <MaxWidthRoot>
+        <LandingCover/>
+        <Padding>
+          <GateBannerComponent/>
+          <MomentComponent
+            onClickItemShow={showDrawer}
+          />
+          <VoteComponent/>
+          <VoteImageComponent/>
 
 
-      {/*<Drawer visible={modalVisible} onClose={closeDrawer}/>*/}
-      <NewDrawer visible={modalVisible} onClose={closeDrawer}/>
-    </MaxWidthRoot>
+          {/*<Drawer visible={modalVisible} onClose={closeDrawer}/>*/}
+          <NewDrawer visible={modalVisible} onClose={closeDrawer}/>
+        </Padding>
+      </MaxWidthRoot>
+    </>
   );
 
   function showDrawer() {
     setModalVisible(true)
   }
+
   function closeDrawer() {
     setModalVisible(false)
   }

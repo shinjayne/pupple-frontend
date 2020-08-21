@@ -54,7 +54,7 @@ const LandingCover : React.FC<IProps> = () => {
 };
 
 const FixedHeader = styled(motion.div)`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
