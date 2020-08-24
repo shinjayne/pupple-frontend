@@ -6,6 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
 }
 
 div {
@@ -15,4 +17,40 @@ div {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@-webkit-keyframes move {
+  0% {
+    margin-left: -400px;
+  }
+  100% {
+    margin-left: 800px;
+  }
+}
+
+@keyframes move {
+  0% {
+    margin-left: -400px;
+  }
+  100% {
+    margin-left: 800px;
+  }
+}
+
+@-o-keyframes move {
+  0% {
+    margin-left: -400px;
+  }
+  100% {
+    margin-left: 800px;
+  }
+}
+
+@-moz-keyframes move {
+  0% {
+    margin-left: -400px;
+  }
+  100% {
+    margin-left: 800px;
+  }
 }

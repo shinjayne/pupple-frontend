@@ -8,37 +8,35 @@ interface IProps {
 }
 
 
-const LandingCover : React.FC<IProps> = () => {
+const LandingCover: React.FC<IProps> = () => {
 
   const scrollPosition = useScrollPosition();
 
   function getOpacity(): number {
-    if (scrollPosition  > 300) {
+    if (scrollPosition > 300) {
       return 0
-    }
-    else {
+    } else {
       return (300 - scrollPosition) / 300
     }
   }
 
-  function getOpacityForFixedHeader() : number {
-    const pos =  scrollPosition - 300
+  function getOpacityForFixedHeader(): number {
+    const pos = scrollPosition - 300
 
     if (pos > 100) {
       return 1
     }
     if (pos <= 0) {
       return 0
-    }
-    else {
-      return pos /100
+    } else {
+      return pos / 100
     }
 
   }
 
   return (
     <>
-      <LandingCoverContainer source={sample1} opacity={String(getOpacity()) }>
+      <LandingCoverContainer source={sample1} opacity={String(getOpacity())}>
         <LandingTitle>가을을 위한 19가지 데일리룩 모음집</LandingTitle>
         <LandingSubtitle
           whileHover={{scale: 1.1}}
@@ -47,13 +45,15 @@ const LandingCover : React.FC<IProps> = () => {
       </LandingCoverContainer>
 
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
-        가을을 위한 19가지 데일리룩 모음집 가을을 위한 19가지 데일리룩 모음집
+        <FixedHeaderInnerBox>가을을 위한 19가지 데일리룩 모음집 가을을 위한 19가지 데일리룩 모음집</FixedHeaderInnerBox>
       </FixedHeader>
     </>
   );
 };
 
 const FixedHeader = styled(motion.div)`
+  overflow: hidden;
+  margin-bottom: 20px;
   position: sticky;
   top: 0;
   left: 0;
@@ -71,6 +71,25 @@ line-height: 140%;
 letter-spacing: -0.33px;
 
 color: #000000;
+`;
+
+const FixedHeaderInnerBox = styled.div`
+    //background: orange;
+    height: 100%;
+    //width: 400px;
+    margin: 10px -400px;
+    -webkit-animation-name: move;
+    -moz-animation-name: move;
+    -o-animation-name: move;
+    animation-name: move;
+    -webkit-animation-duration: 20s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal;
+    -webkit-animation-timing-function: linear;
+    :hover {
+        -webkit-animation-play-state: paused;
+    }
+    //width: 200px;
 `;
 
 const LandingTitle = styled.div`
@@ -106,14 +125,14 @@ cursor: pointer;
 }
 `;
 
-const LandingCoverContainer = styled.div<{source? : string, opacity: string}>`
+const LandingCoverContainer = styled.div<{ source?: string, opacity: string }>`
 display: flex;
 flex-direction: column;
 justify-content: flex-end;
 
 padding: 45px 26px;
 
-  margin-bottom: 40px;
+  //margin-bottom: 20px;
   
   width: 100%;
   height: 438px;
