@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import {motion} from "framer-motion";
+import {motion, useAnimation} from "framer-motion";
 import {Fade, Modal} from "@material-ui/core";
 import ImageTextButton from "./ImageTextButton";
 
@@ -12,8 +12,12 @@ interface IProps {
 
 const GateBannerComponent: React.FC<IProps> = () => {
 
+  const controls =  useAnimation();
+
   const [open, setOpen] = useState(false)
-  function onClickBanner() {
+  async function onClickBanner() {
+    await controls.start({scale: 0.8, transition: {duration: 0.1}});
+    controls.start({scale: 1.0});
     setOpen(true)
   }
   function onClickClose() {
@@ -24,8 +28,9 @@ const GateBannerComponent: React.FC<IProps> = () => {
 
       <Wrapper
         onClick={onClickBanner}
+        animate={controls}
         whileHover={{scale: 1.1}}
-        whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+        // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
       >
         <BannerTitle>이번 영상에서 베스트룩은?</BannerTitle>
         <BannerDescription>가장 마음에 드는 룩을 Pick!</BannerDescription>

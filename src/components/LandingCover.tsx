@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import sample1 from './sample1.png';
-import {AnimatePresence, motion, useViewportScroll} from "framer-motion";
+import {AnimatePresence, motion, useAnimatedState, useAnimation, useViewportScroll} from "framer-motion";
 import useScrollPosition from "../hooks/useScrollPosition";
 
 interface IProps {
@@ -11,6 +11,8 @@ interface IProps {
 const LandingCover: React.FC<IProps> = () => {
 
   const scrollPosition = useScrollPosition();
+
+  const controls = useAnimation();
 
   function getOpacity(): number {
     if (scrollPosition > 300) {
@@ -34,18 +36,50 @@ const LandingCover: React.FC<IProps> = () => {
 
   }
 
+  async function onLinkClick() {
+    await controls.start({scale : 0.8, transition : {duration: 0.1}});
+    controls.start({scale: 1.0, transition : {duration: 0.1}});
+  }
+
   return (
     <>
       <LandingCoverContainer source={sample1} opacity={String(getOpacity())}>
+        <LandingSubTitle>
+          19 FALL OUTFIT IDEAS
+        </LandingSubTitle>
         <LandingTitle>가을을 위한 19가지 데일리룩 모음집</LandingTitle>
-        <LandingSubtitle
+        <LandingLink
+          onClick={onLinkClick}
+          animate={controls}
           whileHover={{scale: 1.1}}
-          whileTap={{scale: 0.8, transition: {duration: 0.1}}}
-        >영상 보러가기 </LandingSubtitle>
+          // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+        >영상 보러가기 </LandingLink>
       </LandingCoverContainer>
 
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
-        <FixedHeaderInnerBox>가을을 위한 19가지 데일리룩 모음집 가을을 위한 19가지 데일리룩 모음집</FixedHeaderInnerBox>
+
+        <FixedHeaderInnerBox>
+          <div>
+            <NormalWeightHeaderText>
+              19 FALL OUTFIT IDEAS
+            </NormalWeightHeaderText>
+            <BoldWeightHederText>
+              가을을 위한 19가지 데일리룩 모음집
+            </BoldWeightHederText>
+            <NormalWeightHeaderText>
+              19 FALL OUTFIT IDEAS
+            </NormalWeightHeaderText>
+            <BoldWeightHederText>
+              가을을 위한 19가지 데일리룩 모음집
+            </BoldWeightHederText>
+            <NormalWeightHeaderText>
+              19 FALL OUTFIT IDEAS
+            </NormalWeightHeaderText>
+            <BoldWeightHederText>
+              가을을 위한 19가지 데일리룩 모음집
+            </BoldWeightHederText>
+          </div>
+        </FixedHeaderInnerBox>
       </FixedHeader>
     </>
   );
@@ -53,43 +87,66 @@ const LandingCover: React.FC<IProps> = () => {
 
 const FixedHeader = styled(motion.div)`
   overflow: hidden;
-  margin-bottom: 20px;
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
   background-color: white;
   height: 56px;
+  margin-top: -32px;
   padding: 16px 14px;
   z-index: 99;
-  
-  font-weight: 600;
-font-size: 20px;
-line-height: 140%;
-/* identical to box height, or 28px */
 
-letter-spacing: -0.33px;
 
-color: #000000;
 `;
 
 const FixedHeaderInnerBox = styled.div`
+  display: flex;
+  color: #000000;
+  //font-weight: 600;
+  font-size: 20px;
+  line-height: 140%;
+/* identical to box height, or 28px */
+
+  letter-spacing: -0.33px;
     //background: orange;
     height: 100%;
     //width: 400px;
-    margin: 10px -400px;
+    margin: 10px 380px;
     -webkit-animation-name: move;
     -moz-animation-name: move;
     -o-animation-name: move;
     animation-name: move;
-    -webkit-animation-duration: 20s;
+    -webkit-animation-duration: 30s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-direction: normal;
     -webkit-animation-timing-function: linear;
     :hover {
         -webkit-animation-play-state: paused;
     }
-    //width: 200px;
+    width: 1000px;
+    color: #000000;
+`;
+
+const NormalWeightHeaderText = styled.span`
+  font-weight: normal;
+  margin-right: 13px;
+`
+const BoldWeightHederText = styled.span`
+  font-weight: 600;
+  margin-right: 26px;
+`
+
+const LandingSubTitle = styled.div`
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 140%;
+/* or 28px */
+
+letter-spacing: -0.33px;
+
+color: #FFFFFF;
 `;
 
 const LandingTitle = styled.div`
@@ -104,7 +161,7 @@ letter-spacing: -0.33px;
 color: #FFFFFF;
 `;
 
-const LandingSubtitle = styled(motion.div)`
+const LandingLink = styled(motion.div)`
 margin-top: 8px;
 font-style: normal;
 font-weight: normal;

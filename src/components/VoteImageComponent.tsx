@@ -3,6 +3,7 @@ import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
 import sample1 from './sample1.png';
 import {url} from "inspector";
+import ImageTextButton from "./ImageTextButton";
 
 interface IProps {
 
@@ -72,7 +73,7 @@ const VoteImageComponent: React.FC<IProps> = () => {
                 <ButtonGroup>
                   <ButtonResult
                     whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+                    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                     initial={{
                       opacity: 0,
                       scale: 0.9,
@@ -92,20 +93,8 @@ const VoteImageComponent: React.FC<IProps> = () => {
               ) :
               (
                 <ButtonGroup>
-                  <ImageVoteButton
-                    onClick={openResult}
-                    whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
-                  >
-                    <ButtonImage source={sample1}/>
-                    🚀싸다</ImageVoteButton>
-                  <ImageVoteButton
-                    onClick={openResult}
-                    whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
-                  >
-                    <ButtonImage source={sample1}/>
-                    😭비싸다</ImageVoteButton>
+                  <ImageTextButton/>
+                  <ImageTextButton/>
                 </ButtonGroup>
               )
           }

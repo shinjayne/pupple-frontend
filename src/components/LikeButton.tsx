@@ -25,7 +25,7 @@ const LikeButton : React.FC<IProps> = ({active = false, style, onClick}) => {
             exit={{ opacity: 0 , scale: 0.8}}
             onClick={onClick}
             whileHover={{scale: 1.1}}
-            whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+            // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
             style={style}>
             <LikeButtonBodyActived style={{color: 'black'}}>💜 {likeCount}</LikeButtonBodyActived>
           </GradientWrapper>
@@ -37,7 +37,7 @@ const LikeButton : React.FC<IProps> = ({active = false, style, onClick}) => {
               exit={{ opacity: 0 , scale: 0.8}}
               onClick={onClick}
               whileHover={{scale: 1.1}}
-              whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+              // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
               style={style}>
             <LikeButtonBody
             >💜 {likeCount}</LikeButtonBody>

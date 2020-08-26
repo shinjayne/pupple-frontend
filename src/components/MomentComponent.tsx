@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {motion, Variants} from "framer-motion";
+import {motion, useAnimation, Variants} from "framer-motion";
 import styled from "styled-components";
 import sample1 from './sample1.png';
 import {url} from "inspector";
@@ -14,6 +14,8 @@ const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
 
   const [like, setLike] = useState(false);
 
+  const itemDrawerButtonControl = useAnimation();
+
   const variants: Variants = {
     landing: {
       scale: 0.9
@@ -21,6 +23,12 @@ const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
     stable: {
       scale: 1
     }
+  }
+
+  async function onClickItemButton() {
+    await itemDrawerButtonControl.start({scale: 0.8, transition: {duration: 0.1}});
+    itemDrawerButtonControl.start({scale: 1.0});
+    onClickItemShow();
   }
 
   function toggleLike() {
@@ -72,9 +80,10 @@ const MomentComponent: React.FC<IProps> = ({onClickItemShow}) => {
           </Title3>
           <ButtonGroupAlignedRight>
             <Button
-              onClick={onClickItemShow}
+              onClick={onClickItemButton}
               whileHover={{scale: 1.1}}
-              whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+              animate={itemDrawerButtonControl}
+              // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
             >👀 아이템 보기</Button>
             <LikeButton
               style={{marginLeft: 16}}

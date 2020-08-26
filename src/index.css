@@ -21,36 +21,36 @@ code {
 
 @-webkit-keyframes move {
   0% {
-    margin-left: -400px;
+    margin-left: 380px;
   }
   100% {
-    margin-left: 800px;
+    margin-left: -1000px;
   }
 }
 
 @keyframes move {
   0% {
-    margin-left: -400px;
+    margin-left: 380px;
   }
   100% {
-    margin-left: 800px;
+    margin-left: -1000px;
   }
 }
 
 @-o-keyframes move {
   0% {
-    margin-left: -400px;
+    margin-left: 380px;
   }
   100% {
-    margin-left: 800px;
+    margin-left: -1000px;
   }
 }
 
 @-moz-keyframes move {
   0% {
-    margin-left: -400px;
+    margin-left: 380px;
   }
   100% {
-    margin-left: 800px;
+    margin-left: -1000px;
   }
 }

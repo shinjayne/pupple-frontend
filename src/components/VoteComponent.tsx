@@ -75,7 +75,7 @@ const VoteComponent: React.FC<IProps> = () => {
                 <ButtonGroup>
                   <ButtonResult
                     whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+                    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                     initial={{
                       opacity: 0,
                       scale: 0.9,
@@ -98,12 +98,12 @@ const VoteComponent: React.FC<IProps> = () => {
                   <Button
                     onClick={openResult}
                     whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+                    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                   >🚀싸다</Button>
                   <Button
                     onClick={openResult}
                     whileHover={{scale: 1.1}}
-                    whileTap={{scale: 0.8, transition: {duration: 0.1}}}
+                    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                   >😭비싸다</Button>
                 </ButtonGroup>
               )
