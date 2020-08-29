@@ -180,7 +180,9 @@ justify-content: flex-end;
 
 padding: 45px 26px;
 
-  //margin-bottom: 20px;
+
+
+  margin-bottom: 24px;
   
   width: 100%;
   height: 438px;
