@@ -2,14 +2,16 @@ import React from 'react';
 import {Drawer} from "@material-ui/core";
 import GoodsItemOverview from "./GoodsItemOverview";
 import styled from "styled-components";
+import {GoodsInfo} from "./ComponentDecision";
 
 interface IProps {
   visible?: boolean,
   onClose?: () => void,
+  goodsList: GoodsInfo[],
 }
 
 
-const NewDrawer: React.FC<IProps> = ({visible, onClose}) => {
+const NewDrawer: React.FC<IProps> = ({goodsList, visible, onClose}) => {
 
   return (
     <>
@@ -33,15 +35,13 @@ const NewDrawer: React.FC<IProps> = ({visible, onClose}) => {
           <Title2>이 순간의 아이템들</Title2>
         </div>
         <GoodsGrid>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
-          <GoodsItemOverview/>
+          {goodsList.map(goods => {
+            return (
+              <>
+                <GoodsItemOverview key={goods.name} goods={goods}/>
+              </>
+            )
+          })}
         </GoodsGrid>
       </Drawer>
     </>

@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from "styled-components";
-import sample1 from './sample1.png';
-import {AnimatePresence, motion, useAnimatedState, useAnimation, useViewportScroll} from "framer-motion";
+import {motion, useAnimation} from "framer-motion";
 import useScrollPosition from "../hooks/useScrollPosition";
+import {PuppleContentsResponse} from "../pages/PuppleContentsPage/PuppleContentsPage";
+import {fullImageUrl} from "../utils";
 
 interface IProps {
+  puppleContentsData : PuppleContentsResponse,
 }
 
 
-const LandingCover: React.FC<IProps> = () => {
+const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
 
   const scrollPosition = useScrollPosition();
 
@@ -39,15 +41,16 @@ const LandingCover: React.FC<IProps> = () => {
   async function onLinkClick() {
     await controls.start({scale : 0.8, transition : {duration: 0.1}});
     controls.start({scale: 1.0, transition : {duration: 0.1}});
+    window.open(puppleContentsData.youtube_contents_list[0].link);
   }
 
   return (
     <>
-      <LandingCoverContainer source={sample1} opacity={String(getOpacity())}>
+      <LandingCoverContainer source={fullImageUrl(puppleContentsData.img_url)} opacity={String(getOpacity())}>
         <LandingSubTitle>
-          19 FALL OUTFIT IDEAS
+          {puppleContentsData.explain}
         </LandingSubTitle>
-        <LandingTitle>가을을 위한 19가지 데일리룩 모음집</LandingTitle>
+        <LandingTitle>{puppleContentsData.title}</LandingTitle>
         <LandingLink
           onClick={onLinkClick}
           animate={controls}
@@ -58,28 +61,20 @@ const LandingCover: React.FC<IProps> = () => {
 
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
 
-        <FixedHeaderInnerBox>
+        <FixedHeaderInnerMovingBox>
           <div>
-            <NormalWeightHeaderText>
-              19 FALL OUTFIT IDEAS
-            </NormalWeightHeaderText>
-            <BoldWeightHederText>
-              가을을 위한 19가지 데일리룩 모음집
-            </BoldWeightHederText>
-            <NormalWeightHeaderText>
-              19 FALL OUTFIT IDEAS
-            </NormalWeightHeaderText>
-            <BoldWeightHederText>
-              가을을 위한 19가지 데일리룩 모음집
-            </BoldWeightHederText>
-            <NormalWeightHeaderText>
-              19 FALL OUTFIT IDEAS
-            </NormalWeightHeaderText>
-            <BoldWeightHederText>
-              가을을 위한 19가지 데일리룩 모음집
-            </BoldWeightHederText>
+            {[1,2,3].map( i =>
+              <>
+                <NormalWeightHeaderText key={String(i)}>
+                  {puppleContentsData.explain}
+                </NormalWeightHeaderText>
+                <BoldWeightHederText>
+                  {puppleContentsData.title}
+                </BoldWeightHederText>
+              </>
+            )}
           </div>
-        </FixedHeaderInnerBox>
+        </FixedHeaderInnerMovingBox>
       </FixedHeader>
     </>
   );
@@ -87,20 +82,19 @@ const LandingCover: React.FC<IProps> = () => {
 
 const FixedHeader = styled(motion.div)`
   overflow: hidden;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background-color: white;
   height: 56px;
-  margin-top: -32px;
   padding: 16px 14px;
   z-index: 99;
 
 
 `;
 
-const FixedHeaderInnerBox = styled.div`
+const FixedHeaderInnerMovingBox = styled.div`
   display: flex;
   color: #000000;
   //font-weight: 600;
@@ -109,10 +103,7 @@ const FixedHeaderInnerBox = styled.div`
 /* identical to box height, or 28px */
 
   letter-spacing: -0.33px;
-    //background: orange;
     height: 100%;
-    //width: 400px;
-    margin: 10px 380px;
     -webkit-animation-name: move;
     -moz-animation-name: move;
     -o-animation-name: move;
@@ -124,7 +115,7 @@ const FixedHeaderInnerBox = styled.div`
     :hover {
         -webkit-animation-play-state: paused;
     }
-    width: 1000px;
+    width: max-content;
     color: #000000;
 `;
 

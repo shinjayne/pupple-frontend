@@ -2,27 +2,48 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import {motion, useAnimation} from "framer-motion";
 import {Fade, Modal} from "@material-ui/core";
-import ImageTextButton from "./ImageTextButton";
+import ImageChoice from "./ImageChoice";
 
 import CloseVector from './Vector.svg';
+import {VoteComponentsFields} from "./ComponentDecision";
 
 interface IProps {
+  data: VoteComponentsFields,
 }
 
 
-const GateBannerComponent: React.FC<IProps> = () => {
+const GateBannerComponent: React.FC<IProps> = ({data}) => {
 
-  const controls =  useAnimation();
+  const controls = useAnimation();
+  const finishButtonAnimate = useAnimation();
 
   const [open, setOpen] = useState(false)
+
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
   async function onClickBanner() {
     await controls.start({scale: 0.8, transition: {duration: 0.1}});
     controls.start({scale: 1.0});
     setOpen(true)
   }
+
   function onClickClose() {
     setOpen(false)
   }
+
+  function onChangedOf(i: number, newVal: boolean) {
+    if (newVal) {
+      setSelectedIds([...selectedIds, i]);
+    } else {
+      setSelectedIds(selectedIds.filter(id => id !== i));
+    }
+  }
+
+  async function onFinishClick() {
+    await finishButtonAnimate.start({scale: 0.8, transition: {duration: 0.1}});
+    finishButtonAnimate.start({scale: 1.0});
+  }
+
   return (
     <>
 
@@ -32,8 +53,8 @@ const GateBannerComponent: React.FC<IProps> = () => {
         whileHover={{scale: 1.1}}
         // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
       >
-        <BannerTitle>이번 영상에서 베스트룩은?</BannerTitle>
-        <BannerDescription>가장 마음에 드는 룩을 Pick!</BannerDescription>
+        <BannerTitle>{data.title}</BannerTitle>
+        <BannerDescription>{data.explain}</BannerDescription>
       </Wrapper>
 
       <Modal
@@ -43,21 +64,34 @@ const GateBannerComponent: React.FC<IProps> = () => {
         <>
           <Fade
             in={open} exit={!open} children={
-            <div style={{background: "linear-gradient(19.48deg, #F3904F 7.86%, #3B4371 100%)", width: '100vw', height: '100vh', overflowX: "hidden", overflowY : "auto"}}>
+            <div style={{
+              background: "linear-gradient(19.48deg, #F3904F 7.86%, #3B4371 100%)",
+              width: '100vw',
+              height: '100vh',
+              overflowX: "hidden",
+              overflowY: "auto"
+            }}>
               <ModalHeader>
                 <img onClick={onClickClose} src={CloseVector}/>
               </ModalHeader>
               <ModalTitle>
-                이번 영상의 베스트룩은?
+                {data.title}
               </ModalTitle>
               <ModalBody>
-                <ImageTextButton style={{marginBottom: 16}}/>
-                <ImageTextButton style={{marginBottom: 16}}/>
-                <ImageTextButton style={{marginBottom: 16}}/>
-                <ImageTextButton style={{marginBottom: 16}}/>
-                <ImageTextButton style={{marginBottom: 16}}/>
-                <ImageTextButton style={{marginBottom: 16}}/>
+                {
+                  data.choices.map(
+                    (choiceData, index) =>
+                      <ImageChoice
+                        data={choiceData}
+                        onChanged={newVal => onChangedOf(index, newVal)}
+                        style={{marginBottom: 16}}
+                      />
+                  )
+                }
               </ModalBody>
+              <StickyBottomButton onClick={onFinishClick} animate={finishButtonAnimate}>
+                선택 완료
+              </StickyBottomButton>
             </div>
           }/>
 
@@ -70,7 +104,7 @@ const GateBannerComponent: React.FC<IProps> = () => {
 };
 
 const ModalHeader = styled.div`
-  position: sticky;
+  position: fixed;
   z-index: 1000;
   top: 0;
   width: 100%;
@@ -104,6 +138,32 @@ const ModalBody = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+`;
+
+const StickyBottomButton = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  height: 60px;
+  width: calc(100% - 32px);
+  background: #BB6BD9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 140%;
+  /* or 21px */
+  
+  text-align: center;
+  letter-spacing: -0.33px;
+  color: #FFFFFF;
+  :hover {
+  cursor: pointer;
+  }
 `;
 
 const BannerTitle = styled.div`

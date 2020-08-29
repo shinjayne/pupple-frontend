@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
-import sample1 from './sample1.png';
-import {url} from "inspector";
-import ImageTextButton from "./ImageTextButton";
+import ImageChoice from "./ImageChoice";
+import voteImg from "./vote.png";
+import {VoteComponentsFields} from "./ComponentDecision";
+import {fullImageUrl} from "../utils";
 
 interface IProps {
-
+  data: VoteComponentsFields,
 }
 
 
-const VoteImageComponent: React.FC<IProps> = () => {
+const VoteImageComponent: React.FC<IProps> = ({data}) => {
 
   const variants: Variants = {
     landing: {
@@ -20,9 +21,8 @@ const VoteImageComponent: React.FC<IProps> = () => {
       scale: 1
     }
   }
-
   const [showResult, setShowResult] = useState(false);
-  const [isFirst, setIsFirst] = useState(false);
+
 
   return (
     <>
@@ -34,14 +34,31 @@ const VoteImageComponent: React.FC<IProps> = () => {
                     boxSizing: 'border-box',
                     marginBottom: 20,
                   }}>
-        <div style={{
-          width: '100%',
-          height: 48,
-          borderRadius: '10px 10px 0 0',
-          background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
-        }}>
+        {
+          data.img_url ? (
+            <div style={{
+              width: '100%',
+              height: `${Math.floor(100 / data.img_aspect_ratio)}%`,
+              backgroundColor: "white",
+              borderRadius: '10px 10px 0 0',
+              backgroundImage: `url(${fullImageUrl(data.img_url)})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat"
+            }}>
+            </div>
 
-        </div>
+          ) : (
+            <div style={{
+              width: '100%',
+              height: 48,
+              borderRadius: '10px 10px 0 0',
+              background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+            }}>
+            </div>
+          )
+        }
+
+
         <div style={{
           position: "relative",
           width: '100%',
@@ -58,56 +75,49 @@ const VoteImageComponent: React.FC<IProps> = () => {
             position: "absolute",
             top: -16,
             left: 12,
-            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)'
-          }}/>
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+            <img style={{width: 24, height: 24}} src={voteImg}/>
+          </div>
 
           <SubTitle style={{marginBottom: 4}}>
-            실용성 좋은 가방 고르기
+            {data.explain}
           </SubTitle>
           <Title3>
-            가을에 더 자주 들 것 같은 가방은?
+            {data.title}
           </Title3>
-          {
-            showResult ? (
 
-                <ButtonGroup>
-                  <ButtonResult
-                    whileHover={{scale: 1.1}}
-                    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
-                    initial={{
-                      opacity: 0,
-                      scale: 0.9,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                    }}
+          <ButtonGroup>
+            {
+              data.choices.map((choiceData, index) => {
+                  const totalVote = data.choices.reduce((sumBuffer, choiceData) => {
+                    return sumBuffer + choiceData.vote
+                  }, 0)
 
-                  >
-                    <ButtonResultChildNotSelected>싸다</ButtonResultChildNotSelected>
-                    <GradientWrapper>
-                      <ButtonResultChildSelected>😭비싸다</ButtonResultChildSelected>
-                    </GradientWrapper>
-                  </ButtonResult>
-                </ButtonGroup>
-              ) :
-              (
-                <ButtonGroup>
-                  <ImageTextButton/>
-                  <ImageTextButton/>
-                </ButtonGroup>
+                  return (
+                    <ImageChoice
+                      immutable={showResult}
+                      onChanged={
+                      (value : boolean) => {
+                        if (value) {
+                          setShowResult(true)
+                        }
+                    }} data={choiceData} percent={showResult ? Math.round(choiceData.vote / totalVote * 100) : undefined}/>
+                  )
+                }
               )
-          }
+            }
+          </ButtonGroup>
+
 
         </div>
 
       </motion.div>
     </>
   );
-
-  function openResult() {
-    setShowResult(true);
-  }
 };
 
 const Wrapper = styled.div`

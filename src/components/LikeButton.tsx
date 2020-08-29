@@ -6,13 +6,12 @@ import {act} from "react-dom/test-utils";
 interface IProps {
   active?: boolean,
   style?: CSSProperties,
-  onClick?: () => any
+  onClick?: () => any,
+  count? :number,
 }
 
 
-const LikeButton : React.FC<IProps> = ({active = false, style, onClick}) => {
-
-  const [likeCount, setLikeCount] = useState(213);
+const LikeButton : React.FC<IProps> = ({active = false, style, onClick,count}) => {
 
   return (
     <>
@@ -27,7 +26,7 @@ const LikeButton : React.FC<IProps> = ({active = false, style, onClick}) => {
             whileHover={{scale: 1.1}}
             // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
             style={style}>
-            <LikeButtonBodyActived style={{color: 'black'}}>💜 {likeCount}</LikeButtonBodyActived>
+            <LikeButtonBodyActived style={{color: 'black'}}>💜 {count}</LikeButtonBodyActived>
           </GradientWrapper>
         ):
           (
@@ -40,7 +39,7 @@ const LikeButton : React.FC<IProps> = ({active = false, style, onClick}) => {
               // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
               style={style}>
             <LikeButtonBody
-            >💜 {likeCount}</LikeButtonBody>
+            >💜 {count}</LikeButtonBody>
             </JustWrapper>
           )
       }

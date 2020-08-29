@@ -1,25 +1,32 @@
 import React from 'react';
 import styled from "styled-components";
 import sample1 from './sample1.png';
+import {GoodsInfo} from "./ComponentDecision";
+import {fullImageUrl} from "../utils";
 
 interface IProps {
+  goods: GoodsInfo,
 }
 
 
-const GoodsItemOverview: React.FC<IProps> = () => {
+const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
+
+  function newWindow() {
+    window.open(goods.link);
+  }
 
   return (
     <>
-      <Wrapper>
+      <Wrapper onClick={newWindow} source={fullImageUrl(goods.main_img_url)}>
 
-        <TextNormal style={{marginBottom: 4}}>하의</TextNormal>
-        <TextBold>₩ 19,000</TextBold>
+        <TextNormal style={{marginBottom: 4}}>{goods.name}</TextNormal>
+        <TextBold>₩ {goods.price.toLocaleString()}</TextBold>
       </Wrapper>
     </>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{source: string}>`
 display: flex;
 flex-flow: column nowrap;
 justify-content: flex-end;
@@ -31,8 +38,11 @@ align-items: flex-start;
   
   padding: 12px;
   
-background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%);
-background:linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.15) 100%), url(${props => props.source});
+  background-size: cover;
+  :hover {
+  cursor: pointer;
+  }
 /* line */
 
 border: 1px solid #F2F2F2;

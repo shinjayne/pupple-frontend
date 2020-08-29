@@ -1,47 +1,25 @@
-import React, {useState} from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-import MomentComponent from "./components/MomentComponent";
-import MaxWidthRoot from "./components/MaxWidthRoot";
-import Drawer from "./components/Drawer";
-import VoteComponent from "./components/VoteComponent";
-import NewDrawer from "./components/NewDrawer";
-import VoteImageComponent from "./components/VoteImageComponent";
-import GateBannerComponent from "./components/GateBannerComponent";
-import LandingCover from "./components/LandingCover";
-import Padding from "./components/Padding";
+import {HashRouter, Switch, Route} from 'react-router-dom';
+import PuppleContentsPage from "./pages/PuppleContentsPage/PuppleContentsPage";
+import ApiProvider from "./ApiProvider";
+import ContentsListPage from "./pages/ContentsListPage/ContentsListPage";
+
 
 function App() {
-  const [modalVisible, setModalVisible] = useState(false)
 
   return (
     <>
-
-      <MaxWidthRoot>
-        <LandingCover/>
-        <Padding>
-          <GateBannerComponent/>
-          <MomentComponent
-            onClickItemShow={showDrawer}
-          />
-          <VoteComponent/>
-          <VoteImageComponent/>
-
-
-          {/*<Drawer visible={modalVisible} onClose={closeDrawer}/>*/}
-          <NewDrawer visible={modalVisible} onClose={closeDrawer}/>
-        </Padding>
-      </MaxWidthRoot>
+      <ApiProvider>
+        <HashRouter>
+          <Switch>
+            <Route path={'/pupple/:contentsId'} component={PuppleContentsPage}/>
+            <Route exact path={'/'} component={ContentsListPage}/>
+          </Switch>
+        </HashRouter>
+      </ApiProvider>
     </>
   );
-
-  function showDrawer() {
-    setModalVisible(true)
-  }
-
-  function closeDrawer() {
-    setModalVisible(false)
-  }
 }
 
 export default App;
