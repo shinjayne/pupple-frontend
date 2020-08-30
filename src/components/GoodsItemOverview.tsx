@@ -16,21 +16,22 @@ const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
   const api = useApi()
   const [iFrameVisible, setIFrameVisible] = useState(false)
 
-  async function newWindow() {
+  async function hitLog() {
     try {
       await api.get(`/contents/item/hit/${goods.pk}`)
-      setIFrameVisible(true)
     }
     catch (e){
       console.log(e)
     }
+  }
 
-
+  function windowOpen() {
+    window.open(goods.link)
   }
 
   return (
     <>
-      <Wrapper onClick={newWindow} source={fullImageUrl(goods.main_img_url)}>
+      <Wrapper onClick={() => {hitLog(); windowOpen();}} source={fullImageUrl(goods.main_img_url)}>
 
         <OverlayBox>
           <TextArea>

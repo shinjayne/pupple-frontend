@@ -38,9 +38,11 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
 
   }
 
-  async function onLinkClick() {
-    await controls.start({scale : 0.8, transition : {duration: 0.1}});
-    controls.start({scale: 1.0, transition : {duration: 0.1}});
+  function onLinkClick() {
+    controls.start({scale : 0.8, transition : {duration: 0.1}}).then(value => {
+      controls.start({scale: 1.0, transition : {duration: 0.1}});
+    });
+
     window.open(puppleContentsData.youtube_contents_list[0].link);
   }
 

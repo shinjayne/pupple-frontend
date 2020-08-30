@@ -6,6 +6,7 @@ import ImageChoice from "./ImageChoice";
 
 import CloseVector from './Vector.svg';
 import {ChoiceResponse, VoteComponentsFields} from "./ComponentDecision";
+import {useApi} from "../ApiProvider";
 
 interface IProps {
   data: VoteComponentsFields,
@@ -16,6 +17,8 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
 
   const controls = useAnimation();
   const finishButtonAnimate = useAnimation();
+
+  const api = useApi()
 
   const [open, setOpen] = useState(false)
 
@@ -33,6 +36,10 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
 
   function onChangedOf(newVal: ChoiceResponse) {
     if (selectedIds.findIndex(value => value === newVal.pk) < 0) {
+      if (data.allowed_choice_num <= selectedIds.length) {
+        return
+      }
+
       setSelectedIds([...selectedIds, newVal.pk]);
     } else {
       setSelectedIds(selectedIds.filter(id => id !== newVal.pk));
@@ -42,6 +49,17 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
   async function onFinishClick() {
     await finishButtonAnimate.start({scale: 0.8, transition: {duration: 0.1}});
     finishButtonAnimate.start({scale: 1.0});
+
+    try {
+      selectedIds.forEach(async (id) => {
+        await api.get(`/components/vote/choice/${id}`)
+      })
+
+      setOpen(false)
+    }catch (e) {
+      console.log(e)
+    }
+
   }
 
   return (
@@ -91,9 +109,14 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
                   )
                 }
               </ModalBody>
-              <StickyBottomButton onClick={onFinishClick} animate={finishButtonAnimate}>
-                선택 완료
-              </StickyBottomButton>
+              {
+                selectedIds.length > 0 && (
+                  <StickyBottomButton onClick={onFinishClick} animate={finishButtonAnimate}>
+                    선택 완료
+                  </StickyBottomButton>
+                )
+              }
+
             </div>
           }/>
 
