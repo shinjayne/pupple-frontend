@@ -11,6 +11,7 @@ interface IProps {
 }
 
 export interface GoodsInfo {
+  pk: string,
   explain: string,
   name: string,
   category: string,

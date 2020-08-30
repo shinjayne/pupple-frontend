@@ -99,6 +99,7 @@ const FixedHeaderInnerMovingBox = styled.div`
   color: #000000;
   //font-weight: 600;
   font-size: 20px;
+  -webkit-text-size-adjust: 100%;
   line-height: 140%;
 /* identical to box height, or 28px */
 

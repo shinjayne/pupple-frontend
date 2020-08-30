@@ -5,8 +5,10 @@ import sample1 from './sample1.png';
 import voteImgIcon from './vote.png';
 import momentImg from './moment.png';
 import {url} from "inspector";
-import {VoteComponentsFields} from "./ComponentDecision";
+import {ChoiceResponse, VoteComponentsFields} from "./ComponentDecision";
 import {fullImageUrl} from "../utils";
+import {useApi} from "../ApiProvider";
+import TextChoice from "./TextChoice";
 
 interface IProps {
   data: VoteComponentsFields,
@@ -24,13 +26,26 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
     }
   }
 
+  const api = useApi()
   const firstChoice = data.choices[0]
   const secondChoice = data.choices[1]
   const firstPercent = Math.round((firstChoice.vote / (firstChoice.vote + secondChoice.vote)) * 100)
   const secondPercent = Math.round((secondChoice.vote / (firstChoice.vote + secondChoice.vote)) * 100)
 
-  const [showResult, setShowResult] = useState(false);
-  const [isFirst, setIsFirst] = useState(false);
+
+  const [selected, setSelected] = useState<ChoiceResponse>();
+
+  async function clickSelect(firstOrSecond: 'first' | 'second') {
+    const votePk = firstOrSecond ==='first' ? firstChoice.pk : secondChoice.pk
+    try {
+      await  api.get(`/components/vote/choice/${votePk}`)
+      setSelected(firstOrSecond === 'first' ? firstChoice : secondChoice);
+    }
+    catch (e) {
+      console.log(e)
+    }
+
+  }
 
   return (
     <>
@@ -97,7 +112,7 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
             {data.title}
           </Title3>
           {
-            showResult ? (
+            selected ? (
 
                 <ButtonGroup>
                   <ButtonResult
@@ -113,16 +128,8 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
                     }}
 
                   >
-                    <GradientWrapper>
-                      <ButtonResultChildSelected>
-                        <UnSelectedGradientFont>{firstPercent} %</UnSelectedGradientFont>
-                        <TextOnButton>{firstChoice.name}</TextOnButton>
-                      </ButtonResultChildSelected>
-                    </GradientWrapper>
-                    <ButtonResultChildNotSelected>
-                      <SelectedGradientFont>{secondPercent} %</SelectedGradientFont>
-                      <TextOnButton>{secondChoice.name}</TextOnButton>
-                    </ButtonResultChildNotSelected>
+                    <TextChoice data={firstChoice} selected={firstChoice.pk === selected.pk} percent={firstPercent} />
+                    <TextChoice data={secondChoice} selected={secondChoice.pk === selected.pk} percent={secondPercent} />
 
                   </ButtonResult>
                 </ButtonGroup>
@@ -130,12 +137,12 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
               (
                 <ButtonGroup>
                   <Button
-                    onClick={openResult}
+                    onClick={()=> clickSelect('first')}
                     whileHover={{scale: 1.1}}
                     // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                   >{firstChoice.name}</Button>
                   <Button
-                    onClick={openResult}
+                    onClick={() => clickSelect('second')}
                     whileHover={{scale: 1.1}}
                     // whileTap={{scale: 0.8, transition: {duration: 0.1}}}
                   >{secondChoice.name}</Button>
@@ -149,9 +156,6 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
     </>
   );
 
-  function openResult() {
-    setShowResult(true);
-  }
 };
 
 const Wrapper = styled.div`

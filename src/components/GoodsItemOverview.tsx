@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-import sample1 from './sample1.png';
+import OutLinkIconImg from './Outlink.png';
 import {GoodsInfo} from "./ComponentDecision";
 import {fullImageUrl} from "../utils";
+import {useApi} from "../ApiProvider";
+import IFrameDrawer from "./IFrameDrawer";
 
 interface IProps {
   goods: GoodsInfo,
@@ -11,17 +13,35 @@ interface IProps {
 
 const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
 
-  function newWindow() {
-    window.open(goods.link);
+  const api = useApi()
+  const [iFrameVisible, setIFrameVisible] = useState(false)
+
+  async function newWindow() {
+    try {
+      await api.get(`/contents/item/hit/${goods.pk}`)
+      setIFrameVisible(true)
+    }
+    catch (e){
+      console.log(e)
+    }
+
+
   }
 
   return (
     <>
       <Wrapper onClick={newWindow} source={fullImageUrl(goods.main_img_url)}>
 
-        <TextNormal style={{marginBottom: 4}}>{goods.name}</TextNormal>
-        <TextBold>₩ {goods.price.toLocaleString()}</TextBold>
+        <OverlayBox>
+          <TextArea>
+            <TextNormal style={{marginBottom: 4}}>{goods.name}</TextNormal>
+            <TextBold>₩ {goods.price.toLocaleString()}</TextBold>
+          </TextArea>
+          <img width={16} height={16} src={OutLinkIconImg}/>
+        </OverlayBox>
+
       </Wrapper>
+      <IFrameDrawer title={goods.name} link={goods.link} visible={iFrameVisible} onClose={()=>setIFrameVisible(false)}/>
     </>
   );
 };
@@ -48,6 +68,20 @@ align-items: flex-start;
 border: 1px solid #F2F2F2;
 margin-bottom: 16px;
 `
+
+const OverlayBox = styled.div`
+width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+const TextArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+`;
 
 const TextNormal = styled.span`
 font-weight: 500;

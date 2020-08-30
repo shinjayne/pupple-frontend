@@ -5,7 +5,7 @@ import {Fade, Modal} from "@material-ui/core";
 import ImageChoice from "./ImageChoice";
 
 import CloseVector from './Vector.svg';
-import {VoteComponentsFields} from "./ComponentDecision";
+import {ChoiceResponse, VoteComponentsFields} from "./ComponentDecision";
 
 interface IProps {
   data: VoteComponentsFields,
@@ -31,11 +31,11 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
     setOpen(false)
   }
 
-  function onChangedOf(i: number, newVal: boolean) {
-    if (newVal) {
-      setSelectedIds([...selectedIds, i]);
+  function onChangedOf(newVal: ChoiceResponse) {
+    if (selectedIds.findIndex(value => value === newVal.pk) < 0) {
+      setSelectedIds([...selectedIds, newVal.pk]);
     } else {
-      setSelectedIds(selectedIds.filter(id => id !== i));
+      setSelectedIds(selectedIds.filter(id => id !== newVal.pk));
     }
   }
 
@@ -74,16 +74,18 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
               <ModalHeader>
                 <img onClick={onClickClose} src={CloseVector}/>
               </ModalHeader>
-              <ModalTitle>
-                {data.title}
-              </ModalTitle>
+              <ModalTitleArea>
+                <ModalTitle>{data.title}</ModalTitle>
+                <ModalSubtitle>{data.explain}</ModalSubtitle>
+              </ModalTitleArea>
               <ModalBody>
                 {
                   data.choices.map(
                     (choiceData, index) =>
                       <ImageChoice
+                        selected={selectedIds.findIndex(value => value === choiceData.pk) >= 0}
                         data={choiceData}
-                        onChanged={newVal => onChangedOf(index, newVal)}
+                        onClick={newVal => onChangedOf(newVal)}
                         style={{marginBottom: 16}}
                       />
                   )
@@ -112,15 +114,18 @@ const ModalHeader = styled.div`
   color: white;
 `;
 
-const ModalTitle = styled.div`
-  position: sticky;
-  top: 60px;
+const ModalTitleArea = styled.div`
+  position: fixed;
+  top: 100px;
   width: 100%;
-  margin-top: 94px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+  color: #FFFFFF;
+`;
+
+const ModalTitle = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -128,12 +133,21 @@ const ModalTitle = styled.div`
   
   text-align: center;
   letter-spacing: -0.33px;
+`;
+
+const ModalSubtitle = styled.div`
+  margin-top: 16px;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 140%;
+  /* or 22px */
   
-  color: #FFFFFF;
+  text-align: center;
+  letter-spacing: -0.33px;
 `;
 
 const ModalBody = styled.div`
-  padding: 67px 30px;
+  padding: 240px 30px 240px 30px;
     display: flex;  
   flex-direction: row;
   flex-wrap: wrap;

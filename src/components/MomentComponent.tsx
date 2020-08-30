@@ -7,6 +7,7 @@ import momentIconImg from "./moment.png";
 import NewDrawer from "./NewDrawer";
 import {MomentComponentFields} from "./ComponentDecision";
 import {fullImageUrl} from "../utils";
+import {useApi} from "../ApiProvider";
 
 interface IProps {
   componentData: MomentComponentFields,
@@ -20,6 +21,8 @@ const MomentComponent: React.FC<IProps> = ({componentData}) => {
   const [showDrawer, setShowDrawer] = useState(false)
 
   const itemDrawerButtonControl = useAnimation();
+
+  const api = useApi()
 
   const variants: Variants = {
     landing: {
@@ -44,14 +47,21 @@ const MomentComponent: React.FC<IProps> = ({componentData}) => {
     openItemDrawer()
   }
 
-  function toggleLike() {
-    if (like) {
-      setLike(false);
-      setLikeCount(likeCount - 1);
-    } else {
-      setLike(true);
-      setLikeCount(likeCount + 1);
+  async function toggleLike() {
+    try {
+      if (like) {
+        await api.get(`/contents/look/unlike/${componentData.look.pk}`);
+        setLike(false);
+        setLikeCount(likeCount - 1);
+      } else {
+        await api.get(`/contents/look/like/${componentData.look.pk}`);
+        setLike(true);
+        setLikeCount(likeCount + 1);
+      }
+    }catch (e) {
+      console.log(e)
     }
+
 
   }
 

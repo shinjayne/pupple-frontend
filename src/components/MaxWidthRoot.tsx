@@ -8,7 +8,7 @@ const MaxWidthRoot: React.FC<PropsWithChildren<IProps>> = ({children}) => {
 
   return (
     <>
-      <div style={{maxWidth: 375}}>
+      <div style={{maxWidth: 450}}>
         {children}
       </div>
     </>

@@ -6,33 +6,24 @@ import {fullImageUrl} from "../utils";
 
 interface IProps {
   style?: CSSProperties,
-  onChanged?: (value : boolean)=>any,
-  immutable?: boolean,
-  initalValue? : boolean,
+  selected?: boolean,
+  onClick?: (data: ChoiceResponse) => any,
   percent?: number,
   data: ChoiceResponse,
 }
 
 
-const ImageChoice: React.FC<IProps> = ({style, initalValue, onChanged, immutable, percent, data}) => {
+const ImageChoice: React.FC<IProps> = ({
+                                         style,
+                                         selected,
+                                         onClick,
 
-  const [selected, setSelected] = useState(false)
-  const [initialized, setInitialized] = useState(false)
+                                         percent,
+                                         data
+                                       }) => {
 
-  useEffect(()=> {
-    if (!initialized  && initalValue !==undefined) {
-      setSelected(initalValue);
-      setInitialized(true);
-    }
-  }, [initalValue, initialized]);
-
-  function onClick() {
-    if (immutable) {
-      return
-    }
-    const newVal = !selected
-    setSelected(newVal)
-    onChanged && onChanged(newVal)
+  function onClicked() {
+    onClick && onClick(data)
   }
 
   return (
@@ -43,13 +34,13 @@ const ImageChoice: React.FC<IProps> = ({style, initalValue, onChanged, immutable
           initial={{opacity: 0, scale: 0.8}}
           animate={{opacity: 1, scale: 1}}
           exit={{opacity: 0, scale: 0.8}}
-          onClick={onClick}
+          onClick={onClicked}
           whileHover={{scale: 1.1}}
           style={style}
         >
           <ImageVoteButtonInGradient
           >
-            <ButtonImage source={data.img_url ? fullImageUrl(data.img_url): ''}/>
+            <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
               {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
               {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
@@ -64,12 +55,12 @@ const ImageChoice: React.FC<IProps> = ({style, initalValue, onChanged, immutable
           initial={{opacity: 0, scale: 0.8}}
           animate={{opacity: 1, scale: 1}}
           exit={{opacity: 0, scale: 0.8}}
-          onClick={onClick}
+          onClick={onClicked}
           whileHover={{scale: 1.1}}
         >
           <ImageVoteButtonInactive
           >
-            <ButtonImage source={data.img_url ? fullImageUrl(data.img_url): ''}/>
+            <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
               {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
               {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}

@@ -3,8 +3,9 @@ import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
 import ImageChoice from "./ImageChoice";
 import voteImg from "./vote.png";
-import {VoteComponentsFields} from "./ComponentDecision";
+import {ChoiceResponse, VoteComponentsFields} from "./ComponentDecision";
 import {fullImageUrl} from "../utils";
+import {useApi} from "../ApiProvider";
 
 interface IProps {
   data: VoteComponentsFields,
@@ -22,6 +23,9 @@ const VoteImageComponent: React.FC<IProps> = ({data}) => {
     }
   }
   const [showResult, setShowResult] = useState(false);
+  const [selected, setSelected] = useState<ChoiceResponse>();
+
+  const api =  useApi()
 
 
   return (
@@ -99,11 +103,18 @@ const VoteImageComponent: React.FC<IProps> = ({data}) => {
 
                   return (
                     <ImageChoice
-                      immutable={showResult}
-                      onChanged={
-                      (value : boolean) => {
-                        if (value) {
-                          setShowResult(true)
+                      selected={selected && (selected.pk  === choiceData.pk)}
+                      onClick={
+                      async (value : ChoiceResponse) => {
+                        if (!showResult) {
+                          try {
+
+                            await api.get(`/components/vote/choice/${value.pk}`)
+                            setSelected(value)
+                            setShowResult(true)
+                          }catch (e) {
+                            console.log(e)
+                          }
                         }
                     }} data={choiceData} percent={showResult ? Math.round(choiceData.vote / totalVote * 100) : undefined}/>
                   )
