@@ -21,6 +21,7 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
   const api = useApi()
 
   const [open, setOpen] = useState(false)
+  const [showResult, setShowResult] = useState(false)
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
@@ -55,12 +56,14 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
         await api.get(`/components/vote/choice/${id}`)
       })
 
-      setOpen(false)
+      setShowResult(true)
     }catch (e) {
       console.log(e)
     }
 
   }
+
+  const totalVote = data.choices.reduce((totalVoteBuffer, currentValue) => { return totalVoteBuffer + currentValue.vote}, 0)
 
   return (
     <>
@@ -92,25 +95,34 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
               <ModalHeader>
                 <img onClick={onClickClose} src={CloseVector}/>
               </ModalHeader>
-              <ModalTitleArea>
-                <ModalTitle>{data.title}</ModalTitle>
-                <ModalSubtitle>{data.explain}</ModalSubtitle>
-              </ModalTitleArea>
               <ModalBody>
+                <ModalTitleArea>
+                  <ModalTitle>{data.title}</ModalTitle>
+                  <ModalSubtitle>{data.explain}  ({data.allowed_choice_num || 0} 개 선택)</ModalSubtitle>
+                </ModalTitleArea>
                 {
                   data.choices.map(
-                    (choiceData, index) =>
-                      <ImageChoice
-                        selected={selectedIds.findIndex(value => value === choiceData.pk) >= 0}
-                        data={choiceData}
-                        onClick={newVal => onChangedOf(newVal)}
-                        style={{marginBottom: 16}}
-                      />
+                    (choiceData, index) => {
+                      const isThisSelected = selectedIds.findIndex(value => value === choiceData.pk) >= 0
+                      const thisPercent = Math.round((choiceData.vote + (isThisSelected ? 1 : 0)) / (totalVote + 1) * 100);
+                      return (
+                        <ImageChoice
+                          percent={showResult ? thisPercent : undefined }
+                          key={choiceData.pk}
+                          selected={isThisSelected}
+                          data={choiceData}
+                          onClick={newVal => onChangedOf(newVal)}
+                          style={{marginBottom: 16}}
+                          majorThreshold={ Math.round(100 / (data.choices.length+ 1)) + 10 }
+                        />
+                      )
+                    }
+
                   )
                 }
               </ModalBody>
               {
-                selectedIds.length > 0 && (
+                selectedIds.length > 0 && !showResult && (
                   <StickyBottomButton onClick={onFinishClick} animate={finishButtonAnimate}>
                     선택 완료
                   </StickyBottomButton>
@@ -138,14 +150,13 @@ const ModalHeader = styled.div`
 `;
 
 const ModalTitleArea = styled.div`
-  position: fixed;
-  top: 100px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #FFFFFF;
+  margin-bottom: 30px;
 `;
 
 const ModalTitle = styled.div`
@@ -170,7 +181,7 @@ const ModalSubtitle = styled.div`
 `;
 
 const ModalBody = styled.div`
-  padding: 240px 30px 240px 30px;
+  padding: 140px 30px 240px 30px;
     display: flex;  
   flex-direction: row;
   flex-wrap: wrap;

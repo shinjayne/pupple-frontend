@@ -10,6 +10,7 @@ interface IProps {
   onClick?: (data: ChoiceResponse) => any,
   percent?: number,
   data: ChoiceResponse,
+  majorThreshold? : number,
 }
 
 
@@ -19,7 +20,8 @@ const ImageChoice: React.FC<IProps> = ({
                                          onClick,
 
                                          percent,
-                                         data
+                                         data,
+  majorThreshold= 50
                                        }) => {
 
   function onClicked() {
@@ -42,8 +44,8 @@ const ImageChoice: React.FC<IProps> = ({
           >
             <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
-              {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-              {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+              {percent !== undefined && percent > majorThreshold && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+              {percent !== undefined && percent <= majorThreshold && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
               <TextOnButton>{data.name}</TextOnButton>
             </TextArea>
 
@@ -62,8 +64,8 @@ const ImageChoice: React.FC<IProps> = ({
           >
             <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
-              {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-              {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+              {percent !== undefined && percent > majorThreshold && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+              {percent !== undefined && percent <= majorThreshold && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
               <TextOnButton>{data.name}</TextOnButton>
             </TextArea>
           </ImageVoteButtonInactive>

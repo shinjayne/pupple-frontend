@@ -27,8 +27,8 @@ const TextChoice : React.FC<IProps> = ({selected,data, percent, onClick=()=>{}, 
               style={style}
             >
               <ButtonResultChildSelected>
-                {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-                {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+                {percent !== undefined && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+                {percent !== undefined && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
                 <TextOnButton>{data.name}</TextOnButton>
               </ButtonResultChildSelected>
             </GradientWrapper>
@@ -42,8 +42,8 @@ const TextChoice : React.FC<IProps> = ({selected,data, percent, onClick=()=>{}, 
               onClick={onClick}
               whileHover={{scale: 1.1}}
             >
-              {percent && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-              {percent && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+              {percent !== undefined && percent > 50 && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+              {percent !== undefined && percent <= 50 && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
               <TextOnButton>{data.name}</TextOnButton>
             </ButtonResultChildNotSelected>
           )

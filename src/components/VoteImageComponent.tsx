@@ -116,7 +116,7 @@ const VoteImageComponent: React.FC<IProps> = ({data}) => {
                             console.log(e)
                           }
                         }
-                    }} data={choiceData} percent={showResult ? Math.round(choiceData.vote / totalVote * 100) : undefined}/>
+                    }} data={choiceData} percent={showResult ? Math.round((choiceData.vote / totalVote + 1) * 100) : undefined}/>
                   )
                 }
               )

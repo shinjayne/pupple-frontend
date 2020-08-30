@@ -29,8 +29,8 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
   const api = useApi()
   const firstChoice = data.choices[0]
   const secondChoice = data.choices[1]
-  const firstPercent = Math.round((firstChoice.vote / (firstChoice.vote + secondChoice.vote)) * 100)
-  const secondPercent = Math.round((secondChoice.vote / (firstChoice.vote + secondChoice.vote)) * 100)
+  const firstPercent = Math.round((firstChoice.vote / (firstChoice.vote + secondChoice.vote + 1)) * 100)
+  const secondPercent = Math.round((secondChoice.vote / (firstChoice.vote + secondChoice.vote + 1)) * 100)
 
 
   const [selected, setSelected] = useState<ChoiceResponse>();
