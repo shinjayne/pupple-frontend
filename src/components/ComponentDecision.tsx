@@ -5,6 +5,7 @@ import NewDrawer from "./NewDrawer";
 import GateBannerComponent from "./GateBannerComponent";
 import VoteImageComponent from "./VoteImageComponent";
 import VoteComponent from "./VoteComponent";
+import useUserPk from "../hooks/useUserPk";
 
 interface IProps {
   componentId: number
@@ -32,7 +33,7 @@ export interface MomentComponentFields {
     main_img_aspect_ratio: number,
     like: number,
     items_pk_list: GoodsInfo[],
-    liked_user_pk_list: number[]
+    liked_users_pk_list: number[]
   }
 }
 
@@ -51,7 +52,7 @@ export interface ChoiceResponse {
   name: string,
   img_url?: string,
   vote: number,
-  voted_user_pk_list: []
+  voted_users_pk_list: []
 }
 
 export interface ComponentResponse {
@@ -64,6 +65,7 @@ type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryIn
 const ComponentDecision: React.FC<IProps> = ({componentId}) => {
 
   const api = useApi();
+  const userPk = useUserPk()
   const [componentInfo, setComponentInfo] = useState<ComponentResponse>();
 
 
@@ -84,24 +86,24 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
     case "LookItemInfoComponent":
       return (
         <>
-          <MomentComponent componentData={componentInfo.fields as MomentComponentFields}/>
+          <MomentComponent userPk={userPk} componentData={componentInfo.fields as MomentComponentFields}/>
         </>
       )
     case "VoteComponent": {
       const voteComponentData = componentInfo.fields as VoteComponentsFields
       if (voteComponentData.want_to_promote) {
         return (
-          <GateBannerComponent data={voteComponentData}/>
+          <GateBannerComponent userPk={userPk} data={voteComponentData}/>
         )
       }
       else if (voteComponentData.choices[0].img_url) {
         return (
-          <VoteImageComponent data={voteComponentData}/>
+          <VoteImageComponent userPk={userPk} data={voteComponentData}/>
         )
       }
       else {
         return (
-          <VoteComponent data={voteComponentData}/>
+          <VoteComponent userPk={userPk}  data={voteComponentData}/>
         )
       }
     }

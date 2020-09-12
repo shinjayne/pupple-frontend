@@ -12,6 +12,8 @@ import {useApi} from "../../ApiProvider";
 import { CircularProgress } from '@material-ui/core';
 import sample1 from '../../components/sample1.png';
 import ComponentDecision from "../../components/ComponentDecision";
+import styled from "styled-components";
+import {motion, useAnimation} from "framer-motion";
 
 interface IProps {
 }
@@ -41,6 +43,9 @@ const PuppleContentsPage: React.FC<IProps> = () => {
   const puppleContentsId = match.params.contentsId;
 
   const [contentsData, setContentsData] = useState<PuppleContentsResponse>();
+  const [closed, setClosed] = useState(false)
+
+  const animateYoutubeBox = useAnimation()
 
   const api = useApi();
 
@@ -55,6 +60,7 @@ const PuppleContentsPage: React.FC<IProps> = () => {
         }
 
         setContentsData(data);
+        animateYoutubeBox.start({height: 174, transition: {delay : 4}})
       } catch (e) {
         console.log(e);
         setContentsData({
@@ -75,6 +81,18 @@ const PuppleContentsPage: React.FC<IProps> = () => {
 
   }, [puppleContentsId]);
 
+  async function onCloseYoutubeBox() {
+    if (closed) {
+      await animateYoutubeBox.start({height: 174})
+      setClosed(false)
+    }else {
+      await animateYoutubeBox.start({height : 0})
+      setClosed(true)
+    }
+
+
+  }
+
   return (
     <>
       {contentsData ? (
@@ -90,6 +108,14 @@ const PuppleContentsPage: React.FC<IProps> = () => {
 
             </Padding>
           </MaxWidthRoot>
+  {/*        <FixedPlayer initial={{height: 0}} animate={ animateYoutubeBox }>*/}
+  {/*          <PlayerHeader onClick={onCloseYoutubeBox}>*/}
+  {/*            <PlayerClose />*/}
+  {/*          </PlayerHeader>*/}
+  {/*          <iframe width="256" height="144" src="https://www.youtube.com/embed/f-E-vIhxWt0" frameBorder="0"*/}
+  {/*allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"*/}
+  {/*allowFullScreen/>*/}
+  {/*        </FixedPlayer>*/}
         </>
       ) : (
         <CircularProgress style={{color: '#6D1EFF'}} />
@@ -99,5 +125,33 @@ const PuppleContentsPage: React.FC<IProps> = () => {
   );
 
 };
+
+const PlayerClose = styled.div`
+  width: 20px;
+  height: 5px;
+  background-color: darkgray;
+  border-radius: 2.5px;
+`;
+
+const PlayerHeader = styled.div`
+  height: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const FixedPlayer = styled(motion.div)`
+ position: fixed;
+ //width: 256px;
+ //height: 144px;
+ padding: 0 10px 10px 10px  ;
+ border-radius: 10px 10px 0 0;
+ z-index: 1000;
+ bottom: 0;
+ right: 20px;
+ background-color: white;
+ border: 1px solid rgb(242, 242, 242);
+`;
 
 export default PuppleContentsPage;

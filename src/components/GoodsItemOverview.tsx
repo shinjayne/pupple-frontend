@@ -5,6 +5,7 @@ import {GoodsInfo} from "./ComponentDecision";
 import {fullImageUrl} from "../utils";
 import {useApi} from "../ApiProvider";
 import IFrameDrawer from "./IFrameDrawer";
+import {Snackbar} from "@material-ui/core";
 
 interface IProps {
   goods: GoodsInfo,
@@ -16,6 +17,8 @@ const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
   const api = useApi()
   const [iFrameVisible, setIFrameVisible] = useState(false)
 
+  const [snackOpen, setSnackOpen] =  useState(false)
+
   async function hitLog() {
     try {
       await api.get(`/contents/item/hit/${goods.pk}`)
@@ -26,7 +29,17 @@ const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
   }
 
   function windowOpen() {
-    window.open(goods.link)
+    if (goods.link && goods.link !== '') {
+      window.open(goods.link)
+    }
+    else {
+      setSnackOpen(true);
+    }
+
+  }
+
+  function handleClose() {
+    setSnackOpen(false);
   }
 
   return (
@@ -42,7 +55,17 @@ const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
         </OverlayBox>
 
       </Wrapper>
+
       <IFrameDrawer title={goods.name} link={goods.link} visible={iFrameVisible} onClose={()=>setIFrameVisible(false)}/>
+
+      <Snackbar
+        autoHideDuration={2000}
+        anchorOrigin={{ vertical : 'bottom', horizontal : 'center' }}
+        open={snackOpen}
+        onClose={handleClose}
+        message="판매 중지된 상품입니다."
+        key={'errorMessage'}
+      />
     </>
   );
 };

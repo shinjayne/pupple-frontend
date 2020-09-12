@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
 import ImageChoice from "./ImageChoice";
@@ -9,10 +9,11 @@ import {useApi} from "../ApiProvider";
 
 interface IProps {
   data: VoteComponentsFields,
+  userPk?: number,
 }
 
 
-const VoteImageComponent: React.FC<IProps> = ({data}) => {
+const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
 
   const variants: Variants = {
     landing: {
@@ -22,10 +23,59 @@ const VoteImageComponent: React.FC<IProps> = ({data}) => {
       scale: 1
     }
   }
-  const [showResult, setShowResult] = useState(false);
-  const [selected, setSelected] = useState<ChoiceResponse>();
 
-  const api =  useApi()
+
+
+  const [showResult, setShowResult] = useState(false);
+  const [selected, setSelected] = useState<ChoiceResponse | undefined>(undefined);
+  const [selectAtThisSession, setSelectAtThisSession] = useState(false);
+  const [percentMap , setPercentMap] = useState<{[k: string]: number}>({});
+
+  const api = useApi()
+
+  useEffect(() => {
+    function whichIVoted(): ChoiceResponse | undefined {
+      if (userPk === undefined) {
+        return undefined
+      }
+
+      const votedChoices: ChoiceResponse[] = data.choices.filter(choice => choice.voted_users_pk_list.findIndex(pk => pk === userPk) >= 0)
+      console.log(votedChoices);
+      return votedChoices.length > 0 ? votedChoices[0] : undefined
+    }
+    const iVoted = whichIVoted()
+    setShowResult(iVoted !== undefined)
+    setSelected(iVoted);
+  }, [userPk, data]);
+
+  useEffect(() => {
+    const idPercentMap :  { [k : string]: number } = {};
+
+    data.choices.forEach(choiceData => {
+      idPercentMap[`${choiceData.pk}`] = 0
+    })
+
+    const onlySelected = data.choices.filter(choiceData => choiceData.vote > 0 || (selected && choiceData.pk === selected.pk));
+    onlySelected.forEach((choiceData, index) => {
+      const isLast = index + 1 === onlySelected.length
+
+
+
+      if (isLast) {
+        idPercentMap[`${choiceData.pk}`] = 100 - Object.values(idPercentMap).reduce((buf, val) => buf + val , 0)
+      }
+      else  {
+        const totalVote = data.choices.reduce((sumBuffer, choiceData) => {
+          return sumBuffer + choiceData.vote
+        }, 0)
+        const amISelected = selected && (selected.pk === choiceData.pk)
+        const addValue = amISelected && selectAtThisSession ? 1 : 0
+        const totalVoteAddValue =  selectAtThisSession ? 1 : 0
+        idPercentMap[`${choiceData.pk}`] = Math.round(((choiceData.vote + addValue) / (totalVote + totalVoteAddValue)) * 100)
+      }
+    })
+    setPercentMap(idPercentMap);
+  }, [selected, selectAtThisSession]);
 
 
   return (
@@ -97,26 +147,33 @@ const VoteImageComponent: React.FC<IProps> = ({data}) => {
           <ButtonGroup>
             {
               data.choices.map((choiceData, index) => {
+                  const isLast = index + 1 === data.choices.length
+
                   const totalVote = data.choices.reduce((sumBuffer, choiceData) => {
                     return sumBuffer + choiceData.vote
                   }, 0)
 
+                  const amISelected = selected && (selected.pk === choiceData.pk)
+                  const addValue = amISelected && selectAtThisSession ? 1 : 0
+                  const myPercent = Math.round(((choiceData.vote + addValue) / (totalVote + addValue)) * 100)
+
                   return (
                     <ImageChoice
-                      selected={selected && (selected.pk  === choiceData.pk)}
+                      selected={amISelected}
                       onClick={
-                      async (value : ChoiceResponse) => {
-                        if (!showResult) {
-                          try {
+                        async (value: ChoiceResponse) => {
+                          if (!showResult) {
+                            try {
 
-                            await api.get(`/components/vote/choice/${value.pk}`)
-                            setSelected(value)
-                            setShowResult(true)
-                          }catch (e) {
-                            console.log(e)
+                              await api.get(`/components/vote/choice/${value.pk}`)
+                              setSelected(value)
+                              setShowResult(true)
+                              setSelectAtThisSession(true)
+                            } catch (e) {
+                              console.log(e)
+                            }
                           }
-                        }
-                    }} data={choiceData} percent={showResult ? Math.round((choiceData.vote / totalVote + 1) * 100) : undefined}/>
+                        }} data={choiceData} percent={showResult ? percentMap[`${choiceData.pk}`] : undefined}/>
                   )
                 }
               )

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {motion, useAnimation} from "framer-motion";
 import {Fade, Modal} from "@material-ui/core";
@@ -10,20 +10,26 @@ import {useApi} from "../ApiProvider";
 
 interface IProps {
   data: VoteComponentsFields,
+  userPk? : number,
 }
 
 
-const GateBannerComponent: React.FC<IProps> = ({data}) => {
+const GateBannerComponent: React.FC<IProps> = ({userPk,data}) => {
 
   const controls = useAnimation();
   const finishButtonAnimate = useAnimation();
 
   const api = useApi()
 
+
+
   const [open, setOpen] = useState(false)
-  const [showResult, setShowResult] = useState(false)
+  const [showResult, setShowResult] = useState<boolean>(false)
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectAtThisSession, setSelectAtThisSession] = useState(false);
+
+  const [percentMap , setPercentMap] = useState<{[k: string]: number}>({});
 
   async function onClickBanner() {
     await controls.start({scale: 0.8, transition: {duration: 0.1}});
@@ -36,6 +42,10 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
   }
 
   function onChangedOf(newVal: ChoiceResponse) {
+    if (showResult) {
+      return
+    }
+
     if (selectedIds.findIndex(value => value === newVal.pk) < 0) {
       if (data.allowed_choice_num <= selectedIds.length) {
         return
@@ -57,13 +67,60 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
       })
 
       setShowResult(true)
+      setSelectAtThisSession(true)
     }catch (e) {
       console.log(e)
     }
 
   }
 
-  const totalVote = data.choices.reduce((totalVoteBuffer, currentValue) => { return totalVoteBuffer + currentValue.vote}, 0)
+  useEffect(() => {
+    function whichIVoted() : ChoiceResponse[] | undefined {
+      if (userPk === undefined) {
+        return undefined
+      }
+
+      const votedChoices : ChoiceResponse[] = data.choices.filter(choice => choice.voted_users_pk_list.findIndex(pk => pk === userPk) >= 0)
+      return votedChoices
+    }
+
+    const whichIVotedResult = whichIVoted()
+
+    setShowResult(whichIVotedResult !== undefined && whichIVotedResult.length > 0);
+    setSelectedIds(whichIVotedResult !== undefined ? whichIVotedResult.map(choice => choice.pk) : []);
+  }, [userPk, data])
+
+  useEffect(() => {
+    const idPercentMap :  { [k : string]: number } = {};
+
+
+    data.choices.forEach(choiceData => {
+      idPercentMap[`${choiceData.pk}`] = 0
+    })
+
+
+    const onlySelected = data.choices.filter(choiceData => choiceData.vote > 0 || (selectedIds.findIndex(value => value === choiceData.pk) >= 0));
+    onlySelected.forEach((choiceData, index) => {
+      const isLast = index + 1 === onlySelected.length
+
+
+      if (isLast) {
+        idPercentMap[`${choiceData.pk}`] = 100 - Object.values(idPercentMap).reduce((buf, val) => buf + val , 0)
+      }
+      else  {
+        const totalVote = data.choices.reduce((sumBuffer, choiceData) => {
+          return sumBuffer + choiceData.vote
+        }, 0)
+        const amISelected = selectedIds.findIndex(value => value === choiceData.pk) >= 0
+        const addValue = amISelected && selectAtThisSession ? 1 : 0
+        const totalVoteAddValue =  setSelectAtThisSession ? 1 : 0
+        idPercentMap[`${choiceData.pk}`] = Math.round(((choiceData.vote + addValue) / (totalVote + totalVoteAddValue)) * 100)
+      }
+    })
+    setPercentMap(idPercentMap);
+  }, [data, selectAtThisSession, selectedIds]);
+
+
 
   return (
     <>
@@ -104,10 +161,9 @@ const GateBannerComponent: React.FC<IProps> = ({data}) => {
                   data.choices.map(
                     (choiceData, index) => {
                       const isThisSelected = selectedIds.findIndex(value => value === choiceData.pk) >= 0
-                      const thisPercent = Math.round((choiceData.vote + (isThisSelected ? 1 : 0)) / (totalVote + 1) * 100);
                       return (
                         <ImageChoice
-                          percent={showResult ? thisPercent : undefined }
+                          percent={showResult ? percentMap[`${choiceData.pk}`] : undefined }
                           key={choiceData.pk}
                           selected={isThisSelected}
                           data={choiceData}

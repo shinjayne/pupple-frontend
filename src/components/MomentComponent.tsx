@@ -11,12 +11,18 @@ import {useApi} from "../ApiProvider";
 
 interface IProps {
   componentData: MomentComponentFields,
+  userPk?: number,
 }
 
 
-const MomentComponent: React.FC<IProps> = ({componentData}) => {
+const MomentComponent: React.FC<IProps> = ({componentData, userPk}) => {
 
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState((userPk !== undefined) ? (
+      componentData.look.liked_users_pk_list.findIndex(pk => {
+        return (pk === userPk)
+      }) >= 0
+    ) :
+    false);
   const [likeCount, setLikeCount] = useState(componentData.look.like);
   const [showDrawer, setShowDrawer] = useState(false)
 
@@ -58,7 +64,7 @@ const MomentComponent: React.FC<IProps> = ({componentData}) => {
         setLike(true);
         setLikeCount(likeCount + 1);
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
 
@@ -75,17 +81,31 @@ const MomentComponent: React.FC<IProps> = ({componentData}) => {
                     boxSizing: 'border-box',
                     marginBottom: 20,
                   }}>
-        <div style={{
-          width: '100%',
-          paddingTop: `${Math.floor( 100 / componentData.look.main_img_aspect_ratio)}%`,
-          backgroundColor: "white",
-          borderRadius: '10px 10px 0 0',
-          backgroundImage: `url(${fullImageUrl(componentData.look.main_img_url)})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat"
-        }}>
+        {
+          componentData.look.main_img_url ? (
+            <div style={{
+              width: '100%',
+              paddingTop: `${Math.floor(100 / componentData.look.main_img_aspect_ratio)}%`,
+              backgroundColor: "white",
+              borderRadius: '10px 10px 0 0',
+              backgroundImage: `url(${fullImageUrl(componentData.look.main_img_url)})`,
+              backgroundPositionX: "50%",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat"
+            }}>
+            </div>
+          ) : (
+            <div style={{
+              width: '100%',
+              height: 48,
+              borderRadius: '10px 10px 0 0',
+              background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+            }}>
+            </div>
+          )
+        }
 
-        </div>
+
         <div style={{
           position: "relative",
           width: '100%',
@@ -140,64 +160,64 @@ const MomentComponent: React.FC<IProps> = ({componentData}) => {
 };
 
 const Wrapper = styled.div`
-border: 1px solid #F2F2F2;
-box-sizing: border-box;
-`;
+          border: 1px solid #F2F2F2;
+          box-sizing: border-box;
+          `;
 
 const SubTitle = styled.div`
-font-style: normal;
-font-weight: 500;
-font-size: 13px;
-line-height: 140%;
-/* or 18px */
+          font-style: normal;
+          font-weight: 500;
+          font-size: 13px;
+          line-height: 140%;
+          /* or 18px */
 
-letter-spacing: -0.33px;
+          letter-spacing: -0.33px;
 
-color: rgba(0, 0, 0, 0.5);
-`;
+          color: rgba(0, 0, 0, 0.5);
+          `;
 
 const Title3 = styled.span`
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 140%;
-/* or 25px */
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 140%;
+          /* or 25px */
 
-letter-spacing: -0.33px;
-`
+          letter-spacing: -0.33px;
+          `
 
 const ButtonGroupAlignedRight = styled.div`
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-`;
+          margin-top: 16px;
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+          `;
 
 const Button = styled(motion.div)`
-  padding: 18px 16px;
-  background-color: #BB6BD9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  
-  font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-/* identical to box height, or 21px */
+          padding: 18px 16px;
+          background-color: #BB6BD9;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
 
-text-align: center;
-letter-spacing: -0.33px;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 140%;
+          /* identical to box height, or 21px */
 
-color: #FFFFFF;
-:hover {
-background-color: #9440b0;
-cursor: pointer;
+          text-align: center;
+          letter-spacing: -0.33px;
 
-}
-:active {
-background-color: #9440b0;
-}
-`;
+          color: #FFFFFF;
+          :hover {
+          background-color: #9440b0;
+          cursor: pointer;
+
+          }
+          :active {
+          background-color: #9440b0;
+          }
+          `;
 
 // const LikeButton = styled(motion.div)`
 //   padding: 18px 16px;

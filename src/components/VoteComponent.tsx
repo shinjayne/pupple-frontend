@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {motion, Variants} from "framer-motion";
 import styled from "styled-components";
 import sample1 from './sample1.png';
@@ -12,10 +12,11 @@ import TextChoice from "./TextChoice";
 
 interface IProps {
   data: VoteComponentsFields,
+  userPk?: number,
 }
 
 
-const VoteComponent: React.FC<IProps> = ({data}) => {
+const VoteComponent: React.FC<IProps> = ({data, userPk}) => {
 
   const variants: Variants = {
     landing: {
@@ -26,20 +27,40 @@ const VoteComponent: React.FC<IProps> = ({data}) => {
     }
   }
 
+  const [selected, setSelected] = useState<ChoiceResponse | undefined >(undefined);
+  const [selectAtThisSession, setSelectAtThisSession] = useState(false);
+
+
   const api = useApi()
   const firstChoice = data.choices[0]
   const secondChoice = data.choices[1]
-  const firstPercent = Math.round((firstChoice.vote / (firstChoice.vote + secondChoice.vote + 1)) * 100)
-  const secondPercent = Math.round((secondChoice.vote / (firstChoice.vote + secondChoice.vote + 1)) * 100)
+
+  const isFirstSelected = selected && (selected.pk === firstChoice.pk)
+  const addValue = isFirstSelected && selectAtThisSession ? 1 : 0
+  const firstPercent = Math.round(((firstChoice.vote  + addValue) / (firstChoice.vote + secondChoice.vote + addValue)) * 100)
+  const secondPercent = 100 - firstPercent
 
 
-  const [selected, setSelected] = useState<ChoiceResponse>();
+  useEffect(()=> {
+    function whichIVoted() : ChoiceResponse  | undefined {
+      if (userPk === undefined) {
+        return undefined
+      }
+
+      const votedChoices : ChoiceResponse[] = data.choices.filter(choice => choice.voted_users_pk_list.findIndex(pk => pk === userPk) >= 0)
+      return votedChoices.length > 0 ? votedChoices[0] : undefined
+    }
+
+    setSelected(whichIVoted());
+  },[userPk, selected]);
+
 
   async function clickSelect(firstOrSecond: 'first' | 'second') {
     const votePk = firstOrSecond ==='first' ? firstChoice.pk : secondChoice.pk
     try {
       await  api.get(`/components/vote/choice/${votePk}`)
       setSelected(firstOrSecond === 'first' ? firstChoice : secondChoice);
+      setSelectAtThisSession(true);
     }
     catch (e) {
       console.log(e)

@@ -149,6 +149,7 @@ const ButtonImage = styled.div<{ source: string }>`
   background-image: url(${props => props.source});
             background-size: cover;
           background-repeat: no-repeat;
+          background-position-x: 50%;
          
           padding-top: 100%;
           width: 100%;
