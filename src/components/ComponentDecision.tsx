@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useApi} from "../ApiProvider";
 import MomentComponent from "./MomentComponent";
-import NewDrawer from "./NewDrawer";
 import GateBannerComponent from "./GateBannerComponent";
 import VoteImageComponent from "./VoteImageComponent";
 import VoteComponent from "./VoteComponent";
@@ -80,7 +79,7 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
         console.log(e);
       }
     }
-  }, [componentId])
+  }, [componentId, api])
 
   switch (componentInfo?.type) {
     case "LookItemInfoComponent":

@@ -27,7 +27,7 @@ const ContentsListPage: React.FC<IProps> = () => {
       }
     }
 
-  }, [])
+  }, [api])
   return (
     <>
       <MaxWidthRoot>

@@ -134,7 +134,7 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-            <img style={{width: 24, height: 24}} src={voteImg}/>
+            <img alt={'voteImg'} style={{width: 24, height: 24}} src={voteImg}/>
           </div>
 
           <SubTitle style={{marginBottom: 4}}>
@@ -147,15 +147,9 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
           <ButtonGroup>
             {
               data.choices.map((choiceData, index) => {
-                  const isLast = index + 1 === data.choices.length
-
-                  const totalVote = data.choices.reduce((sumBuffer, choiceData) => {
-                    return sumBuffer + choiceData.vote
-                  }, 0)
 
                   const amISelected = selected && (selected.pk === choiceData.pk)
-                  const addValue = amISelected && selectAtThisSession ? 1 : 0
-                  const myPercent = Math.round(((choiceData.vote + addValue) / (totalVote + addValue)) * 100)
+
 
                   return (
                     <ImageChoice
@@ -188,10 +182,6 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
   );
 };
 
-const Wrapper = styled.div`
-border: 1px solid #F2F2F2;
-box-sizing: border-box;
-`;
 
 const Title3 = styled.span`
 font-style: normal;
@@ -222,77 +212,11 @@ const ButtonGroup = styled.div`
   width: 100%;
 `;
 
-const ButtonResult = styled(motion.div)`
-  display: flex;
-  justify-content: space-between;
-  background: #FFFFFF;
-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  
-font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-width: 100%;
-/* identical to box height, or 21px */
 
-text-align: center;
-letter-spacing: -0.33px;
 
-color: #000000;
-:hover {
-cursor: pointer;
-}
-`;
 
-const GradientWrapper = styled.div`
-  position: relative;
-  background: linear-gradient(to right, #6D1EFF, #C800E9);
-  padding: 2px;
-  width: 48%;
-  border-radius: 11px;
-`;
 
-const ButtonResultChildNotSelected = styled.div`
-    width: 48%;
-    padding: 18px 16px;
-  background: #FFFFFF;
-  border-radius: 10px;
-  
-font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-/* identical to box height, or 21px */
-
-text-align: center;
-letter-spacing: -0.33px;
-
-color: #000000;
-`;
-
-const ButtonResultChildSelected = styled.div`
-  padding: 18px 16px;
-  background: #FFFFFF;
-//box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1));
-  border-radius: 10px;
-  
-font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 140%;
-width: 100%;
-/* identical to box height, or 21px */
-
-text-align: center;
-letter-spacing: -0.33px;
-
-color: #000000;
-
-`;
-
-const ImageVoteButton = styled(motion.div)`
+styled(motion.div)`
   padding: 12px;
 background: #F2F2F2;
 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -319,16 +243,6 @@ background-color: #d4cece;
 }
 `;
 
-const ButtonImage = styled.div<{ source: string }>`
-  background-image: url(${props => props.source});
-            background-size: cover;
-          background-repeat: no-repeat;
-         
-          padding-top: 100%;
-          width: 100%;
-          margin-bottom: 10px;
-          border-radius: 10px;
-          
-`;
+
 
 export default VoteImageComponent;

@@ -1,7 +1,6 @@
-import React, {CSSProperties, useState} from 'react';
+import React, {CSSProperties} from 'react';
 import styled from "styled-components";
 import {AnimatePresence, motion} from "framer-motion";
-import {act} from "react-dom/test-utils";
 
 interface IProps {
   active?: boolean,

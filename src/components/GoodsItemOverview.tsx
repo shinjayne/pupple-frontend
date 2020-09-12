@@ -51,7 +51,7 @@ const GoodsItemOverview: React.FC<IProps> = ({goods}) => {
             <TextNormal style={{marginBottom: 4}}>{goods.name}</TextNormal>
             <TextBold>₩ {goods.price.toLocaleString()}</TextBold>
           </TextArea>
-          <img width={16} height={16} src={OutLinkIconImg}/>
+          <img alt={goods.name} width={16} height={16} src={OutLinkIconImg}/>
         </OverlayBox>
 
       </Wrapper>

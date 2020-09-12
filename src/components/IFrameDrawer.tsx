@@ -1,8 +1,6 @@
 import React from 'react';
 import {Drawer} from "@material-ui/core";
-import GoodsItemOverview from "./GoodsItemOverview";
 import styled from "styled-components";
-import {GoodsInfo} from "./ComponentDecision";
 import CloseCircleIcon from './close-circle.png';
 
 interface IProps {
@@ -32,7 +30,7 @@ const IFrameDrawer: React.FC<IProps> = ({title,link, visible, onClose}) => {
           }
         }}
       >
-        <img width={24} height={24} src={CloseCircleIcon}
+        <img alt={'close'} width={24} height={24} src={CloseCircleIcon}
         onClick={onClose}
              style={{
           position: "fixed",

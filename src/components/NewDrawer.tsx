@@ -47,19 +47,6 @@ const NewDrawer: React.FC<IProps> = ({goodsList, visible, onClose}) => {
     </>
   );
 };
-
-const StyledDrawer = styled(Drawer)`
-  border-radius: 10px 10px 0 0;
-  background-color: white;
-  width: 100%;
-  padding: 20px 16px;
-  height: 80vh;
-  max-height: 80vh;
-  min-height: 80vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-`;
-
 const GoodsGrid = styled.div`
   display: flex;  
   flex-direction: row;

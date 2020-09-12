@@ -127,7 +127,7 @@ const MomentComponent: React.FC<IProps> = ({componentData, userPk}) => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-            <img style={{height: 17.6, width: 24}} src={momentIconImg}/>
+            <img alt={'moment'} style={{height: 17.6, width: 24}} src={momentIconImg}/>
           </div>
 
           <SubTitle style={{marginBottom: 4}}>

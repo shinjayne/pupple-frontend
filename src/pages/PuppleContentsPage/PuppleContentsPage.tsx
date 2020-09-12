@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import LandingCover from "../../components/LandingCover";
 import Padding from "../../components/Padding";
-import GateBannerComponent from "../../components/GateBannerComponent";
-import MomentComponent from "../../components/MomentComponent";
-import VoteComponent from "../../components/VoteComponent";
-import VoteImageComponent from "../../components/VoteImageComponent";
-import NewDrawer from "../../components/NewDrawer";
 import MaxWidthRoot from "../../components/MaxWidthRoot";
 import useRouter from "use-react-router";
 import {useApi} from "../../ApiProvider";
-import { CircularProgress } from '@material-ui/core';
+import {CircularProgress} from '@material-ui/core';
 import sample1 from '../../components/sample1.png';
 import ComponentDecision from "../../components/ComponentDecision";
 import styled from "styled-components";

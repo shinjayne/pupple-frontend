@@ -150,7 +150,7 @@ const GateBannerComponent: React.FC<IProps> = ({userPk,data}) => {
               overflowY: "auto"
             }}>
               <ModalHeader>
-                <img onClick={onClickClose} src={CloseVector}/>
+                <img alt={'close'} onClick={onClickClose} src={CloseVector}/>
               </ModalHeader>
               <ModalBody>
                 <ModalTitleArea>

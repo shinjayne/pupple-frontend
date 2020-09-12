@@ -38,7 +38,7 @@ const ContentsOverview: React.FC<IProps> = ({data}) => {
           <div>
             [{data.pk}] {data.title}
           </div>
-          <img src={fullImageUrl(data.img_url)} width={100}/>
+          <img alt={data.title} src={fullImageUrl(data.img_url)} width={100}/>
         </motion.div>
       </Link>
     </>
