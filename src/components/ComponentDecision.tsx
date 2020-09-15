@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useApi} from "../ApiProvider";
 import MomentComponent from "./MomentComponent";
-import GateBannerComponent from "./GateBannerComponent";
+import FullScreenVoteComponent from "./FullScreenVoteComponent";
 import VoteImageComponent from "./VoteImageComponent";
 import VoteComponent from "./VoteComponent";
 import useUserPk from "../hooks/useUserPk";
 import ModelInfoComponent, {ModelInfoComponentFields} from "./ModelInfoComponent";
+import CommentComponent, {CommentComponentField} from "./CommentComponent";
 
 interface IProps {
   componentId: number
@@ -57,10 +58,10 @@ export interface ChoiceResponse {
 
 export interface ComponentResponse {
   type: ComponentType
-  fields: MomentComponentFields | VoteComponentsFields | ModelInfoComponentFields
+  fields: MomentComponentFields | VoteComponentsFields | ModelInfoComponentFields | CommentComponentField
 }
 
-type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryInfoComponent" | "ModelInfoComponent";
+type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryInfoComponent" | "ModelInfoComponent" | "CommentComponent";
 
 const ComponentDecision: React.FC<IProps> = ({componentId}) => {
 
@@ -93,7 +94,7 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
       const voteComponentData = componentInfo.fields as VoteComponentsFields
       if (voteComponentData.want_to_promote) {
         return (
-          <GateBannerComponent userPk={userPk} data={voteComponentData}/>
+          <FullScreenVoteComponent userPk={userPk} data={voteComponentData}/>
         )
       } else if (voteComponentData.choices[0].img_url) {
         return (
@@ -108,6 +109,11 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
     case "ModelInfoComponent": {
       return (
         <ModelInfoComponent componentData={componentInfo.fields as ModelInfoComponentFields}/>
+      )
+    }
+    case "CommentComponent": {
+      return (
+        <CommentComponent componentData={componentInfo.fields as CommentComponentField}/>
       )
     }
     case "ItemCategoryInfoComponent":

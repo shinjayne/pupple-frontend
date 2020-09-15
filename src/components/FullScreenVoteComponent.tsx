@@ -14,7 +14,7 @@ interface IProps {
 }
 
 
-const GateBannerComponent: React.FC<IProps> = ({userPk,data}) => {
+const FullScreenVoteComponent: React.FC<IProps> = ({userPk,data}) => {
 
   const controls = useAnimation();
   const finishButtonAnimate = useAnimation();
@@ -137,7 +137,6 @@ const GateBannerComponent: React.FC<IProps> = ({userPk,data}) => {
 
       <Modal
         closeAfterTransition
-        style={{position: "sticky"}}
         open={open} children={
         <>
           <Fade
@@ -318,4 +317,4 @@ cursor: pointer;
 }
 `;
 
-export default GateBannerComponent;
+export default FullScreenVoteComponent;

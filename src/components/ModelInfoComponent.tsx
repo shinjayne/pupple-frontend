@@ -1,6 +1,6 @@
 import React from 'react';
 import {motion, Variants} from "framer-motion";
-import momentIconImg from "./moment.png";
+import infoIconImg from "./infoVector.png";
 import styled from "styled-components";
 
 import heightIcon from './heightIcon.png';
@@ -74,7 +74,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-            <img alt={'moment'} style={{height: 17.6, width: 24}} src={momentIconImg}/>
+            <img alt={'moment'} style={{height: 16, width: 6}} src={infoIconImg}/>
           </div>
 
           <SubTitle style={{marginBottom: 4}}>
@@ -132,21 +132,6 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
               {componentData.shoes}
             </InfoBoxRight>
           </InfoBox>
-          {/*<ButtonGroupAlignedRight>*/}
-          {/*  <Button*/}
-          {/*    onClick={onClickItemButton}*/}
-          {/*    whileHover={{scale: 1.1}}*/}
-          {/*    animate={itemDrawerButtonControl}*/}
-          {/*    // whileTap={{scale: 0.8, transition: {duration: 0.1}}}*/}
-          {/*  >👀 아이템 보기</Button>*/}
-          {/*  <LikeButton*/}
-          {/*    count={likeCount}*/}
-          {/*    style={{marginLeft: 16}}*/}
-          {/*    onClick={toggleLike}*/}
-          {/*    active={like}*/}
-          {/*  />*/}
-
-          {/*</ButtonGroupAlignedRight>*/}
         </div>
 
       </motion.div>
