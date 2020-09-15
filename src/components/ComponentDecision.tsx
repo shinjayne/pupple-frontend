@@ -5,6 +5,7 @@ import GateBannerComponent from "./GateBannerComponent";
 import VoteImageComponent from "./VoteImageComponent";
 import VoteComponent from "./VoteComponent";
 import useUserPk from "../hooks/useUserPk";
+import ModelInfoComponent, {ModelInfoComponentFields} from "./ModelInfoComponent";
 
 interface IProps {
   componentId: number
@@ -56,10 +57,10 @@ export interface ChoiceResponse {
 
 export interface ComponentResponse {
   type: ComponentType
-  fields: MomentComponentFields | VoteComponentsFields
+  fields: MomentComponentFields | VoteComponentsFields | ModelInfoComponentFields
 }
 
-type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryInfoComponent";
+type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryInfoComponent" | "ModelInfoComponent";
 
 const ComponentDecision: React.FC<IProps> = ({componentId}) => {
 
@@ -94,17 +95,20 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
         return (
           <GateBannerComponent userPk={userPk} data={voteComponentData}/>
         )
-      }
-      else if (voteComponentData.choices[0].img_url) {
+      } else if (voteComponentData.choices[0].img_url) {
         return (
           <VoteImageComponent userPk={userPk} data={voteComponentData}/>
         )
-      }
-      else {
+      } else {
         return (
-          <VoteComponent userPk={userPk}  data={voteComponentData}/>
+          <VoteComponent userPk={userPk} data={voteComponentData}/>
         )
       }
+    }
+    case "ModelInfoComponent": {
+      return (
+        <ModelInfoComponent componentData={componentInfo.fields as ModelInfoComponentFields}/>
+      )
     }
     case "ItemCategoryInfoComponent":
     default:

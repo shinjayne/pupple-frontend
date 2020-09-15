@@ -40,7 +40,6 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
       }
 
       const votedChoices: ChoiceResponse[] = data.choices.filter(choice => choice.voted_users_pk_list.findIndex(pk => pk === userPk) >= 0)
-      console.log(votedChoices);
       return votedChoices.length > 0 ? votedChoices[0] : undefined
     }
     const iVoted = whichIVoted()
