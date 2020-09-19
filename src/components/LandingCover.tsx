@@ -4,6 +4,7 @@ import {motion, useAnimation} from "framer-motion";
 import useScrollPosition from "../hooks/useScrollPosition";
 import {PuppleContentsResponse} from "../pages/PuppleContentsPage/PuppleContentsPage";
 import {fullImageUrl} from "../utils";
+import kakaoImage from './kakao.png';
 
 interface IProps {
   puppleContentsData : PuppleContentsResponse,
@@ -46,6 +47,23 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
     window.open(puppleContentsData.youtube_contents_list[0].link);
   }
 
+  function onShareButtonClick() {
+
+    // @ts-ignore
+    if (navigator.share) {
+      // @ts-ignore
+      navigator.share({
+        title: puppleContentsData.title,
+        text: puppleContentsData.title,
+        url: `https://pupple-contents.web.app/pupple/${puppleContentsData.pk}`,
+      })
+    }
+    else {
+      // kakaoTalk share
+    }
+
+  }
+
   return (
     <>
       <LandingCoverContainer source={fullImageUrl(puppleContentsData.img_url)} opacity={String(getOpacity())}>
@@ -62,6 +80,10 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
       </LandingCoverContainer>
 
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
+
+        <FixedShareBox>
+          <KakaoImage id='kakao-link-btn' onClick={onShareButtonClick} src={kakaoImage}/>
+        </FixedShareBox>
         <FixedHeaderInnerMovingBox>
           <div>
             {[1,2,3].map( i =>
@@ -93,6 +115,28 @@ const FixedHeader = styled(motion.div)`
   z-index: 99;
 
 
+`;
+
+const FixedShareBox = styled.div`
+  position: fixed;
+  top : 0;
+  right : 0; 
+  background-color: white;
+  height: 56px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const KakaoImage = styled.div<{src : string}>`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position-x: 0.5px;
+  cursor: pointer;
 `;
 
 const FixedHeaderInnerMovingBox = styled.div`

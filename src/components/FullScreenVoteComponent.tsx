@@ -142,7 +142,7 @@ const FullScreenVoteComponent: React.FC<IProps> = ({userPk,data}) => {
           <Fade
             in={open} exit={!open} children={
             <div style={{
-              background: "linear-gradient(19.48deg, #F3904F 7.86%, #3B4371 100%)",
+              background: "linear-gradient(13.08deg, #DAB9FC 9.4%, #7D59FC 90.55%)",
               width: '100vw',
               height: '100vh',
               overflowX: "hidden",

@@ -39,6 +39,7 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+    <script src="%PUBLIC_URL%/kakao-sdk.1.37.3.min.js"></script>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
@@ -67,4 +68,54 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+
+  <script type='text/javascript'>
+    //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('1a14609d7ba4bbcfe7e0a51f2a28d684');
+    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+
+    window.kakao = Kakao;
+    //
+    // window.goKakaoChannelTalk = () => {
+    //   Kakao.Channel.chat({
+    //     channelPublicId: '_dPJxfxb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+    //   });
+    // };
+    //
+    // window.addChannelTalk = () => {
+    //   Kakao.Channel.addChannel({
+    //     channelPublicId: '_dPJxfxb' // 채널 홈 URL에 명시된 id로 설정합니다.
+    //   });
+    //
+    // };
+
+    Kakao.Link.createDefaultButton({
+      container: '#kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: 'Pupple',
+        description: '고독한 취준봇🤖 으로 하루 두번 취준 컨텐츠 쏙쏙',
+        imageUrl: 'https://godokbot.web.app/kakao-thumbnail.png',
+        link: {
+          mobileWebUrl: 'https://bit.ly/2xrnzfK',
+          webUrl: 'https://bit.ly/2xrnzfK'
+        }
+      },
+      // social: {
+      //   likeCount: 286,
+      //   commentCount: 45,
+      //   sharedCount: 845
+      // },
+      buttons: [
+        {
+          title: '구경하기',
+          link: {
+            mobileWebUrl: 'https://bit.ly/2xrnzfK',
+            webUrl: 'https://bit.ly/2xrnzfK'
+          }
+        },
+      ]
+    });
+  </script>
 </html>
