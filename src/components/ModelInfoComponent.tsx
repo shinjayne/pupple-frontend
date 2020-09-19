@@ -16,9 +16,13 @@ export interface ModelInfoComponentFields {
   title: string,
   explain: string,
   height: string,
+  height_unit : string,
   top: string,
+  top_unit: string,
   bottom: string,
+  bottom_unit: string,
   shoes: string
+  shoes_unit: string,
 }
 
 
@@ -91,7 +95,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
                   <InfoBoxLeftIcon source={heightIcon}/>
                   <InfoBoxLeftTextArea>
                     <InfoBoxLeftTextAreaBig>Height</InfoBoxLeftTextAreaBig>
-                    <InfoBoxLeftTextAreaSmall>cm</InfoBoxLeftTextAreaSmall>
+                    <InfoBoxLeftTextAreaSmall>{componentData.height_unit}</InfoBoxLeftTextAreaSmall>
                   </InfoBoxLeftTextArea>
                 </InfoBoxLeft>
                 <InfoBoxRight>
@@ -108,7 +112,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
                   <InfoBoxLeftIcon source={topIcon}/>
                   <InfoBoxLeftTextArea>
                     <InfoBoxLeftTextAreaBig>Top</InfoBoxLeftTextAreaBig>
-                    <InfoBoxLeftTextAreaSmall>size</InfoBoxLeftTextAreaSmall>
+                    <InfoBoxLeftTextAreaSmall>{componentData.top_unit}</InfoBoxLeftTextAreaSmall>
                   </InfoBoxLeftTextArea>
                 </InfoBoxLeft>
                 <InfoBoxRight>
@@ -124,7 +128,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
                   <InfoBoxLeftIcon source={bottomIcon}/>
                   <InfoBoxLeftTextArea>
                     <InfoBoxLeftTextAreaBig>Bottom</InfoBoxLeftTextAreaBig>
-                    <InfoBoxLeftTextAreaSmall>inch</InfoBoxLeftTextAreaSmall>
+                    <InfoBoxLeftTextAreaSmall>{componentData.bottom_unit}</InfoBoxLeftTextAreaSmall>
                   </InfoBoxLeftTextArea>
                 </InfoBoxLeft>
                 <InfoBoxRight>
@@ -140,7 +144,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
                   <InfoBoxLeftIcon source={shoesIcon}/>
                   <InfoBoxLeftTextArea>
                     <InfoBoxLeftTextAreaBig>Shoes</InfoBoxLeftTextAreaBig>
-                    <InfoBoxLeftTextAreaSmall>mm</InfoBoxLeftTextAreaSmall>
+                    <InfoBoxLeftTextAreaSmall>{componentData.shoes_unit}</InfoBoxLeftTextAreaSmall>
                   </InfoBoxLeftTextArea>
                 </InfoBoxLeft>
                 <InfoBoxRight>

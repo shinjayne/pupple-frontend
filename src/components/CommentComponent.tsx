@@ -3,10 +3,11 @@ import {motion, Variants} from "framer-motion";
 import commentIconImg from "./commentIcon.png";
 import styled from "styled-components";
 import {fullImageUrl} from "../utils";
-import {Button, Fade, Input, Modal} from '@material-ui/core';
+import {Fade, Modal} from '@material-ui/core';
 import {useApi} from "../ApiProvider";
 import moment from "moment";
 import CloseVector from "./closeVector.svg";
+import CommentInput from "./CommentInput";
 
 
 interface IProps {
@@ -39,12 +40,13 @@ const Comment: React.FC<{ mode: 'white' | 'dark', message: string, writer: strin
           <CommentMetaLeft mode={mode}>
             {writer}
           </CommentMetaLeft>
-          <CommentMetaRight mode={mode}>
-            {date}
-          </CommentMetaRight>
+
         </CommentMetaBar>
         <CommentTextBox>
           {message}
+          <CommentMetaRight>
+            {date}
+          </CommentMetaRight>
         </CommentTextBox>
       </SingleCommentDiv>
     </>
@@ -73,8 +75,8 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
     setComments(componentData.comments);
   }, [componentData.comments]);
 
-  function onCommentInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setCommentInput(event.target.value);
+  function onCommentInputChange(v: string) {
+    setCommentInput(v);
   }
 
   function onClickMore() {
@@ -168,7 +170,7 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
           </SubTitle>
 
           {
-            comments.slice(comments.length-3).map(comment => {
+            comments.slice(comments.length - 3).map(comment => {
               return (
                 <Comment mode={"dark"} key={comment.pk}
                          date={moment(comment.created_at).format('MM.DD A hh:mm').replace('PM', '오후').replace('AM', '오전')}
@@ -179,8 +181,7 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
           <MoreButton onClick={onClickMore}>더보기</MoreButton>
 
 
-          <Input value={commentInput} onChange={onCommentInputChange}/>
-          <Button onClick={onSubmitClick}>작성</Button>
+          <CommentInput onSubmitClick={onSubmitClick} onChange={onCommentInputChange} value={commentInput}/>
 
         </div>
 
@@ -201,6 +202,9 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
               display: "flex",
               justifyContent: "center"
             }}>
+              <ModalHeader>
+                <img alt={'close'} onClick={onClickClose} src={CloseVector}/>
+              </ModalHeader>
               <div style={{maxWidth: '400px', width: '100vw'}}>
                 <DrawerScrollArea>
                   {
@@ -214,9 +218,10 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
                   }
                 </DrawerScrollArea>
                 <DrawerBottomArea>
-                  <CloseButton onClick={onClickClose}>
-                    <img width={20} height={20} src={CloseVector}/>
-                  </CloseButton>
+                  <div style={{width: '100%', maxWidth: '400px', padding: 14}}>
+                    <CommentInput onSubmitClick={onSubmitClick}
+                                  onChange={onCommentInputChange} value={commentInput}/>
+                  </div>
                 </DrawerBottomArea>
               </div>
             </div>
@@ -228,6 +233,15 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
     </>
   );
 };
+
+const ModalHeader = styled.div`
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  padding: 18px 20px;
+  color: white;
+`;
 
 const SubTitle = styled.div`
           font-style: normal;
@@ -269,6 +283,7 @@ font-style: normal;
 font-weight: normal;
 font-size: 13px;
 line-height: 17px;
+margin-left: 6px;
 /* identical to box height */
 
 letter-spacing: -0.33px;
@@ -278,18 +293,19 @@ letter-spacing: -0.33px;
 color: ${props => props.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'white'} ;
 `;
 
-const CommentMetaRight = styled.div<{ mode: string }>`
+const CommentMetaRight = styled.div`
 font-style: normal;
 font-weight: normal;
 font-size: 13px;
 line-height: 17px;
 /* identical to box height */
 
+margin-top : 10px;
 letter-spacing: -0.33px;
 
 /* secondary - text */
 
-color: ${props => props.mode === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'white'} ;
+color: rgba(0, 0, 0, 0.5);
 `;
 
 const CommentTextBox = styled.div`
@@ -310,7 +326,8 @@ color: #000000;
 
 const DrawerScrollArea = styled.div`
   width: 100%;
-  height: calc(100% - 120px);
+  height: calc(100% - 66px);
+  
   padding: 32px 16px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -322,10 +339,11 @@ const DrawerBottomArea = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 110px;
-  padding-top: 32px;
+  height: 66px;
+  
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const CloseButton = styled.div`

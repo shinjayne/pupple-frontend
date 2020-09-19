@@ -4,7 +4,7 @@ import {motion, useAnimation} from "framer-motion";
 import useScrollPosition from "../hooks/useScrollPosition";
 import {PuppleContentsResponse} from "../pages/PuppleContentsPage/PuppleContentsPage";
 import {fullImageUrl} from "../utils";
-import kakaoImage from './kakao.png';
+import kakaoImage from './shareIcon.png';
 
 interface IProps {
   puppleContentsData : PuppleContentsResponse,
@@ -82,7 +82,7 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
 
         <FixedShareBox>
-          <KakaoImage id='kakao-link-btn' onClick={onShareButtonClick} src={kakaoImage}/>
+          <ShareButton onClick={onShareButtonClick} src={kakaoImage}/>
         </FixedShareBox>
         <FixedHeaderInnerMovingBox>
           <div>
@@ -129,13 +129,13 @@ const FixedShareBox = styled.div`
   align-items: center;
 `;
 
-const KakaoImage = styled.div<{src : string}>`
+const ShareButton = styled.div<{src : string}>`
   width: 25px;
   height: 25px;
-  border-radius: 50%;
+  //border-radius: 50%;
   background-image: url(${props => props.src});
-  background-size: cover;
-  background-position-x: 0.5px;
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
 `;
 
