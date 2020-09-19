@@ -49,7 +49,7 @@ const LikeButton : React.FC<IProps> = ({active = false, style, onClick,count}) =
 
 const GradientWrapper = styled(motion.div)`
   position: relative;
-  background: linear-gradient(to right, #6D1EFF, #C800E9);
+  background: linear-gradient(to right, #9733EE, #7A1FC9);
   padding: 4px;
   border-radius: 10px;
  

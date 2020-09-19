@@ -10,7 +10,7 @@ interface IProps {
   onClick?: (data: ChoiceResponse) => any,
   percent?: number,
   data: ChoiceResponse,
-  majorThreshold? : number,
+  majorThreshold?: number,
 }
 
 
@@ -21,7 +21,7 @@ const ImageChoice: React.FC<IProps> = ({
 
                                          percent,
                                          data,
-  majorThreshold= 50
+                                         majorThreshold = 50
                                        }) => {
 
   function onClicked() {
@@ -44,8 +44,10 @@ const ImageChoice: React.FC<IProps> = ({
           >
             <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
-              {percent !== undefined && percent > majorThreshold && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-              {percent !== undefined && percent <= majorThreshold && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+              {percent !== undefined && percent > majorThreshold &&
+              <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+              {percent !== undefined && percent <= majorThreshold &&
+              <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
               <TextOnButton>{data.name}</TextOnButton>
             </TextArea>
 
@@ -64,8 +66,10 @@ const ImageChoice: React.FC<IProps> = ({
           >
             <ButtonImage source={data.img_url ? fullImageUrl(data.img_url) : ''}/>
             <TextArea>
-              {percent !== undefined && percent > majorThreshold && <SelectedGradientFont>{percent} %</SelectedGradientFont>}
-              {percent !== undefined && percent <= majorThreshold && <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
+              {percent !== undefined && percent > majorThreshold &&
+              <SelectedGradientFont>{percent} %</SelectedGradientFont>}
+              {percent !== undefined && percent <= majorThreshold &&
+              <UnSelectedGradientFont>{percent} %</UnSelectedGradientFont>}
               <TextOnButton>{data.name}</TextOnButton>
             </TextArea>
           </ImageVoteButtonInactive>
@@ -84,7 +88,7 @@ const JustWrapper = styled(motion.div)`
 
 const GradientWrapper = styled(motion.div)`
   position: relative;
-  background: linear-gradient(to right, #6D1EFF, #C800E9);
+  background: linear-gradient(to right, #9733EE, #7A1FC9);
   padding: 4px;
   border-radius: 11px;
  

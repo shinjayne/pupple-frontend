@@ -81,7 +81,7 @@ cursor: pointer;
 
 const GradientWrapper = styled(motion.div)`
   position: relative;
-  background: linear-gradient(to right, #6D1EFF, #C800E9);
+  background: linear-gradient(to right, #9733EE, #7A1FC9);
   padding: 4px;
   width: 48%;
   border-radius: 11px;

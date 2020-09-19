@@ -99,7 +99,7 @@ const MomentComponent: React.FC<IProps> = ({componentData, userPk}) => {
               width: '100%',
               height: 48,
               borderRadius: '10px 10px 0 0',
-              background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+              background: 'linear-gradient(86.46deg, #9733EE 26.66%, #7A1FC9 74.02%);',
             }}>
             </div>
           )
@@ -130,12 +130,13 @@ const MomentComponent: React.FC<IProps> = ({componentData, userPk}) => {
             <img alt={'moment'} style={{height: 17.6, width: 24}} src={momentIconImg}/>
           </div>
 
-          <SubTitle style={{marginBottom: 4}}>
-            {componentData.explain}
-          </SubTitle>
+
           <Title3>
             {componentData.title}
           </Title3>
+          <SubTitle style={{marginTop: 8}}>
+            {componentData.explain}
+          </SubTitle>
           <ButtonGroupAlignedRight>
             <Button
               onClick={onClickItemButton}
@@ -186,13 +187,15 @@ const ButtonGroupAlignedRight = styled.div`
           display: flex;
           justify-content: flex-end;
           width: 100%;
+          padding-right: 8px;
           `;
 
 const Button = styled(motion.div)`
           padding: 18px 16px;
-          background-color: #BB6BD9;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           border-radius: 10px;
+          width: 50%;
 
           font-style: normal;
           font-weight: 500;
@@ -203,14 +206,14 @@ const Button = styled(motion.div)`
           text-align: center;
           letter-spacing: -0.33px;
 
-          color: #FFFFFF;
+          color: #000000;
           :hover {
-          background-color: #9440b0;
+          background-color: #d4cece;
           cursor: pointer;
 
           }
           :active {
-          background-color: #9440b0;
+          background-color: #d4cece;
           }
           `;
 

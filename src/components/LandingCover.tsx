@@ -62,7 +62,6 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
       </LandingCoverContainer>
 
       <FixedHeader style={{opacity: getOpacityForFixedHeader()}}>
-
         <FixedHeaderInnerMovingBox>
           <div>
             {[1,2,3].map( i =>

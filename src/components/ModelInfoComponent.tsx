@@ -48,7 +48,7 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
           width: '100%',
           height: 48,
           borderRadius: '10px 10px 0 0',
-          background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+          background: 'linear-gradient(to right, #9733EE, #7A1FC9)',
         }}>
         </div>
 
@@ -77,61 +77,77 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
             <img alt={'moment'} style={{height: 16, width: 6}} src={infoIconImg}/>
           </div>
 
-          <SubTitle style={{marginBottom: 4}}>
-            {componentData.explain}
-          </SubTitle>
+
           <Title3>
             {componentData.title}
           </Title3>
+          <SubTitle style={{marginTop: 4, marginBottom : 16}}>
+            {componentData.explain}
+          </SubTitle>
+          {
+            componentData && componentData.height !== '' && (
+              <InfoBox>
+                <InfoBoxLeft>
+                  <InfoBoxLeftIcon source={heightIcon}/>
+                  <InfoBoxLeftTextArea>
+                    <InfoBoxLeftTextAreaBig>Height</InfoBoxLeftTextAreaBig>
+                    <InfoBoxLeftTextAreaSmall>cm</InfoBoxLeftTextAreaSmall>
+                  </InfoBoxLeftTextArea>
+                </InfoBoxLeft>
+                <InfoBoxRight>
+                  {componentData.height}
+                </InfoBoxRight>
+              </InfoBox>
+            )
+          }
 
-          <InfoBox>
-            <InfoBoxLeft>
-              <InfoBoxLeftIcon source={heightIcon}/>
-              <InfoBoxLeftTextArea>
-                <InfoBoxLeftTextAreaBig>Height</InfoBoxLeftTextAreaBig>
-                <InfoBoxLeftTextAreaSmall>cm</InfoBoxLeftTextAreaSmall>
-              </InfoBoxLeftTextArea>
-            </InfoBoxLeft>
-            <InfoBoxRight>
-              {componentData.height}
-            </InfoBoxRight>
-          </InfoBox>
-          <InfoBox>
-            <InfoBoxLeft>
-              <InfoBoxLeftIcon source={topIcon}/>
-              <InfoBoxLeftTextArea>
-                <InfoBoxLeftTextAreaBig>Top</InfoBoxLeftTextAreaBig>
-                <InfoBoxLeftTextAreaSmall>size</InfoBoxLeftTextAreaSmall>
-              </InfoBoxLeftTextArea>
-            </InfoBoxLeft>
-            <InfoBoxRight>
-              {componentData.top}
-            </InfoBoxRight>
-          </InfoBox>
-          <InfoBox>
-            <InfoBoxLeft>
-              <InfoBoxLeftIcon source={bottomIcon}/>
-              <InfoBoxLeftTextArea>
-                <InfoBoxLeftTextAreaBig>Bottom</InfoBoxLeftTextAreaBig>
-                <InfoBoxLeftTextAreaSmall>inch</InfoBoxLeftTextAreaSmall>
-              </InfoBoxLeftTextArea>
-            </InfoBoxLeft>
-            <InfoBoxRight>
-              {componentData.bottom}
-            </InfoBoxRight>
-          </InfoBox>
-          <InfoBox>
-            <InfoBoxLeft>
-              <InfoBoxLeftIcon source={shoesIcon}/>
-              <InfoBoxLeftTextArea>
-                <InfoBoxLeftTextAreaBig>Shoes</InfoBoxLeftTextAreaBig>
-                <InfoBoxLeftTextAreaSmall>cm</InfoBoxLeftTextAreaSmall>
-              </InfoBoxLeftTextArea>
-            </InfoBoxLeft>
-            <InfoBoxRight>
-              {componentData.shoes}
-            </InfoBoxRight>
-          </InfoBox>
+          {
+            componentData.top && componentData.top !== '' && (
+              <InfoBox>
+                <InfoBoxLeft>
+                  <InfoBoxLeftIcon source={topIcon}/>
+                  <InfoBoxLeftTextArea>
+                    <InfoBoxLeftTextAreaBig>Top</InfoBoxLeftTextAreaBig>
+                    <InfoBoxLeftTextAreaSmall>size</InfoBoxLeftTextAreaSmall>
+                  </InfoBoxLeftTextArea>
+                </InfoBoxLeft>
+                <InfoBoxRight>
+                  {componentData.top}
+                </InfoBoxRight>
+              </InfoBox>
+            )}
+
+          {
+            componentData.bottom && componentData.bottom !== '' && (
+              <InfoBox>
+                <InfoBoxLeft>
+                  <InfoBoxLeftIcon source={bottomIcon}/>
+                  <InfoBoxLeftTextArea>
+                    <InfoBoxLeftTextAreaBig>Bottom</InfoBoxLeftTextAreaBig>
+                    <InfoBoxLeftTextAreaSmall>inch</InfoBoxLeftTextAreaSmall>
+                  </InfoBoxLeftTextArea>
+                </InfoBoxLeft>
+                <InfoBoxRight>
+                  {componentData.bottom}
+                </InfoBoxRight>
+              </InfoBox>
+            )
+          }
+          {
+            componentData.shoes && componentData.shoes !== '' && (
+              <InfoBox>
+                <InfoBoxLeft>
+                  <InfoBoxLeftIcon source={shoesIcon}/>
+                  <InfoBoxLeftTextArea>
+                    <InfoBoxLeftTextAreaBig>Shoes</InfoBoxLeftTextAreaBig>
+                    <InfoBoxLeftTextAreaSmall>mm</InfoBoxLeftTextAreaSmall>
+                  </InfoBoxLeftTextArea>
+                </InfoBoxLeft>
+                <InfoBoxRight>
+                  {componentData.shoes}
+                </InfoBoxRight>
+              </InfoBox>
+            )}
         </div>
 
       </motion.div>
@@ -159,7 +175,7 @@ align-items: center;
   height: 100%;
 `;
 
-const InfoBoxLeftIcon = styled.div<{source:  string}>`
+const InfoBoxLeftIcon = styled.div<{ source: string }>`
   background-image: url(${props => props.source});
   background-size: cover;
   width: 36px;
@@ -235,37 +251,5 @@ const Title3 = styled.div`
           letter-spacing: -0.33px;
           `
 
-const ButtonGroupAlignedRight = styled.div`
-          margin-top: 16px;
-          display: flex;
-          justify-content: flex-end;
-          width: 100%;
-          `;
-
-const Button = styled(motion.div)`
-          padding: 18px 16px;
-          background-color: #BB6BD9;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          border-radius: 10px;
-
-          font-style: normal;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 140%;
-          /* identical to box height, or 21px */
-
-          text-align: center;
-          letter-spacing: -0.33px;
-
-          color: #FFFFFF;
-          :hover {
-          background-color: #9440b0;
-          cursor: pointer;
-
-          }
-          :active {
-          background-color: #9440b0;
-          }
-          `;
 
 export default ModelInfoComponent;

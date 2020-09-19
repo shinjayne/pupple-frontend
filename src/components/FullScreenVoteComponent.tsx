@@ -305,7 +305,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 //background: conic-gradient(from 56.97deg at 50% 50%, #6D1EFF 0deg, #C800E9 30.8deg, #6D1EFF 360deg);
-background: linear-gradient(to right, #6D1EFF, #C800E9);
+background: linear-gradient(to right, #9733EE, #7A1FC9);
 border-radius: 10px;
 width: 100%;
 height: 80px;

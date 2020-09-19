@@ -129,7 +129,7 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
               width: '100%',
               height: 48,
               borderRadius: '10px 10px 0 0',
-              background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+              background: 'linear-gradient(to right, #9733EE, #7A1FC9)',
             }}>
             </div>
           )
@@ -159,12 +159,13 @@ const CommentComponent: React.FC<IProps> = ({componentData}) => {
             <img alt={'moment'} style={{height: 16, width: 16}} src={commentIconImg}/>
           </div>
 
-          <SubTitle style={{marginBottom: 4}}>
-            {componentData.explain}
-          </SubTitle>
+
           <Title3>
             {componentData.title}
           </Title3>
+          <SubTitle style={{marginTop: 8}}>
+            {componentData.explain}
+          </SubTitle>
 
           {
             comments.slice(comments.length-3).map(comment => {
@@ -317,6 +318,9 @@ const DrawerScrollArea = styled.div`
 
 
 const DrawerBottomArea = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 110px;
   padding-top: 32px;

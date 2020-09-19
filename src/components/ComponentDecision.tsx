@@ -61,7 +61,12 @@ export interface ComponentResponse {
   fields: MomentComponentFields | VoteComponentsFields | ModelInfoComponentFields | CommentComponentField
 }
 
-type ComponentType = "LookItemInfoComponent" | "VoteComponent" | "ItemCategoryInfoComponent" | "ModelInfoComponent" | "CommentComponent";
+type ComponentType =
+  "LookItemInfoComponent"
+  | "VoteComponent"
+  | "ItemCategoryInfoComponent"
+  | "ModelInfoComponent"
+  | "CommentComponent";
 
 const ComponentDecision: React.FC<IProps> = ({componentId}) => {
 
@@ -96,6 +101,8 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
         return (
           <FullScreenVoteComponent userPk={userPk} data={voteComponentData}/>
         )
+      } else if (voteComponentData.choices.length === 0) {
+        return <></>
       } else if (voteComponentData.choices[0].img_url) {
         return (
           <VoteImageComponent userPk={userPk} data={voteComponentData}/>

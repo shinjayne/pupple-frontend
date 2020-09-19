@@ -105,7 +105,7 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
               width: '100%',
               height: 48,
               borderRadius: '10px 10px 0 0',
-              background: 'linear-gradient(to right, #6D1EFF, #C800E9)',
+              background: 'linear-gradient(to right, #9733EE, #7A1FC9)',
             }}>
             </div>
           )
@@ -136,12 +136,14 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
             <img alt={'voteImg'} style={{width: 24, height: 24}} src={voteImg}/>
           </div>
 
-          <SubTitle style={{marginBottom: 4}}>
-            {data.explain}
-          </SubTitle>
+
           <Title3>
             {data.title}
           </Title3>
+
+          <SubTitle style={{marginTop: 8}}>
+            {data.explain}
+          </SubTitle>
 
           <ButtonGroup>
             {
