@@ -7,6 +7,7 @@ import VoteComponent from "./VoteComponent";
 import useUserPk from "../hooks/useUserPk";
 import ModelInfoComponent, {ModelInfoComponentFields} from "./ModelInfoComponent";
 import CommentComponent, {CommentComponentField} from "./CommentComponent";
+import QuoteComponent from "./QuoteComponent";
 
 interface IProps {
   componentId: number
@@ -48,6 +49,12 @@ export interface VoteComponentsFields {
   choices: ChoiceResponse[]
 }
 
+export interface QuoteComponentsFields {
+  title: string,
+  explain: string,
+  want_to_promote: boolean,
+}
+
 export interface ChoiceResponse {
   pk: number,
   name: string,
@@ -66,7 +73,8 @@ type ComponentType =
   | "VoteComponent"
   | "ItemCategoryInfoComponent"
   | "ModelInfoComponent"
-  | "CommentComponent";
+  | "CommentComponent"
+  | "QuoteComponent";
 
 const ComponentDecision: React.FC<IProps> = ({componentId}) => {
 
@@ -121,6 +129,11 @@ const ComponentDecision: React.FC<IProps> = ({componentId}) => {
     case "CommentComponent": {
       return (
         <CommentComponent componentData={componentInfo.fields as CommentComponentField}/>
+      )
+    }
+    case "QuoteComponent": {
+      return (
+        <QuoteComponent componentData={componentInfo.fields as QuoteComponentsFields}/>
       )
     }
     case "ItemCategoryInfoComponent":

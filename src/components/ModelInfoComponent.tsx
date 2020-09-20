@@ -235,7 +235,7 @@ const SubTitle = styled.div`
           font-style: normal;
           font-weight: 500;
           font-size: 13px;
-          line-height: 140%;
+          line-height: 150%;
           /* or 18px */
 
           letter-spacing: -0.33px;

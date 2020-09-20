@@ -91,7 +91,7 @@ const VoteImageComponent: React.FC<IProps> = ({userPk, data}) => {
           data.img_url ? (
             <div style={{
               width: '100%',
-              height: `${Math.floor(100 / data.img_aspect_ratio)}%`,
+              paddingTop: `${Math.floor(100 / data.img_aspect_ratio)}%`,
               backgroundColor: "white",
               borderRadius: '10px 10px 0 0',
               backgroundImage: `url(${fullImageUrl(data.img_url)})`,
@@ -198,7 +198,7 @@ const SubTitle = styled.div`
 font-style: normal;
 font-weight: 500;
 font-size: 13px;
-line-height: 140%;
+line-height: 150%;
 /* or 18px */
 
 letter-spacing: -0.33px;
