@@ -49,7 +49,7 @@ display: flex;
 align-items: center;
 letter-spacing: -0.33px;
 width: 90%;
-padding: 0;
+padding: 0 !important;
 `
 
 const StyledButton = styled.div`

@@ -328,7 +328,7 @@ const DrawerScrollArea = styled.div`
   width: 100%;
   height: calc(100% - 66px);
   
-  padding: 32px 16px;
+  padding: 150px 16px 32px 16px;
   overflow-y: auto;
   overflow-x: hidden;
 `;
@@ -339,7 +339,8 @@ const DrawerBottomArea = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 66px;
+  min-height: 66px;
+  height: fit-content;
   
   display: flex;
   justify-content: center;
