@@ -3,6 +3,7 @@ import {Drawer} from "@material-ui/core";
 import GoodsItemOverview from "./GoodsItemOverview";
 import styled from "styled-components";
 import {GoodsInfo} from "./ComponentDecision";
+import CloseCircleIcon from "./close-circle.png";
 
 interface IProps {
   visible?: boolean,
@@ -18,6 +19,7 @@ const NewDrawer: React.FC<IProps> = ({goodsList, visible, onClose}) => {
       <Drawer
         anchor={'bottom'}
         open={visible} onClose={onClose}
+
         PaperProps={{
           style: {
             borderRadius: '10px 10px 0 0',
@@ -30,6 +32,15 @@ const NewDrawer: React.FC<IProps> = ({goodsList, visible, onClose}) => {
           }
         }}
       >
+        <img alt={'close'} width={36} height={36} src={CloseCircleIcon}
+             onClick={onClose}
+             style={{
+               position: "fixed",
+               zIndex: 100,
+               bottom: 'calc(80vh + 16px)',
+               left : 'calc(50% - 18px)',
+               cursor: 'pointer'
+             }} />
 
         <div style={{marginBottom: 20}}>
           <Title2>이 순간의 아이템들</Title2>
