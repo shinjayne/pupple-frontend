@@ -5,6 +5,7 @@ import useScrollPosition from "../hooks/useScrollPosition";
 import {PuppleContentsResponse} from "../pages/PuppleContentsPage/PuppleContentsPage";
 import {fullImageUrl} from "../utils";
 import kakaoImage from './shareIcon.png';
+import {useApi} from "../ApiProvider";
 
 interface IProps {
   puppleContentsData : PuppleContentsResponse,
@@ -16,6 +17,8 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
   const scrollPosition = useScrollPosition();
 
   const controls = useAnimation();
+
+  const api = useApi()
 
   function getOpacity(): number {
     if (scrollPosition > 300) {
@@ -47,7 +50,13 @@ const LandingCover: React.FC<IProps> = ({puppleContentsData}) => {
     window.open(puppleContentsData.youtube_contents_list[0].link);
   }
 
-  function onShareButtonClick() {
+  async function onShareButtonClick() {
+
+    try {
+      await api.get(`/shoppable/share/increase/${puppleContentsData.pk}`)
+    }catch (e) {
+      console.log(e);
+    }
 
     // @ts-ignore
     if (navigator.share) {

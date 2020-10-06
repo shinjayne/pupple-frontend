@@ -7,12 +7,15 @@ import heightIcon from './heightIcon.png';
 import shoesIcon from './shoesIcon.png';
 import topIcon from './topIcon.png';
 import bottomIcon from './bottomIcon.png';
+import footIcon from './foot.png';
 
 interface IProps {
   componentData: ModelInfoComponentFields
 }
 
 export interface ModelInfoComponentFields {
+  weight: string;
+  weight_unit: string;
   title: string,
   explain: string,
   height: string,
@@ -149,6 +152,21 @@ const ModelInfoComponent: React.FC<IProps> = ({componentData}) => {
                 </InfoBoxLeft>
                 <InfoBoxRight>
                   {componentData.shoes}
+                </InfoBoxRight>
+              </InfoBox>
+            )}
+          {
+            componentData.weight && componentData.weight !== '' && (
+              <InfoBox>
+                <InfoBoxLeft>
+                  <InfoBoxLeftIcon source={footIcon}/>
+                  <InfoBoxLeftTextArea>
+                    <InfoBoxLeftTextAreaBig>Weight</InfoBoxLeftTextAreaBig>
+                    <InfoBoxLeftTextAreaSmall>{componentData.weight_unit}</InfoBoxLeftTextAreaSmall>
+                  </InfoBoxLeftTextArea>
+                </InfoBoxLeft>
+                <InfoBoxRight>
+                  {componentData.weight}
                 </InfoBoxRight>
               </InfoBox>
             )}

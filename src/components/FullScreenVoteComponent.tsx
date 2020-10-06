@@ -304,11 +304,10 @@ padding: 20px 16px;
 display: flex;
 flex-direction: column;
 align-items: center;
-//background: conic-gradient(from 56.97deg at 50% 50%, #6D1EFF 0deg, #C800E9 30.8deg, #6D1EFF 360deg);
+//background: conic-gradient(from 56.97deg at 50% 50%, #6D1EFF 0d eg, #C800E9 30.8deg, #6D1EFF 360deg);
 background: linear-gradient(to right, #9733EE, #7A1FC9);
 border-radius: 10px;
 width: 100%;
-height: 80px;
 margin-bottom: 20px;
 
 :hover {
